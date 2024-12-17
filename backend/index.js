@@ -16,7 +16,7 @@ const reviewRoute = require('./routes/review')
 dotenv.config();
 
 const app = express();
-const PORT = 8011 || 5010;
+const PORT = process.env.PORT || 8011;
 const MONGO_URI = process.env.MONGO_URL
 const corsOptions = {
     origin: 'http://localhost:5173',  // Change this to the frontend URL
