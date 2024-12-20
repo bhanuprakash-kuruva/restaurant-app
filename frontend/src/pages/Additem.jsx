@@ -54,7 +54,7 @@ const AddItem = () => {
 
     try {
       // Send the form data including the image file
-      const response = await fetch('http://localhost:8011/admin/addItem', {
+      const response = await fetch('https://restaurant-app-three-pied.vercel.app/addItem', {
         method: 'POST',
         body: newFormData,
       });
