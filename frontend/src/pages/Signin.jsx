@@ -47,7 +47,7 @@ const Signin = () => {
     try {
       const response = await fetch('https://restaurant-app-three-pied.vercel.app/customer/signin', {
         method: 'POST',
-        mode: 'no-cors',
+        
         headers: {
           'Content-Type': 'application/json',
         },
