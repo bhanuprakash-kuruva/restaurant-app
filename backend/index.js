@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const adminRoute = require('./routes/admin');
 const path = require('path');
-const connectToMongo = require('./connect');
 const customerRoute = require('./routes/customer');
 const itemRoute = require('./routes/item');
 const orderRoute = require('./routes/order');
@@ -21,14 +20,19 @@ const PORT = process.env.PORT || 8011;
 const MONGO_URI = process.env.MONGO_URL;
 
 const corsOptions = {
-    origin: 'https://restaurant-app-frontend-ruby.vercel.app',  // Removed trailing slash
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,  // Allow cookies to be sent with requests
+  origin: 'https://restaurant-app-frontend-ruby.vercel.app',  // Remove trailing slash
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,  // Allow cookies to be sent with requests
 };
 
+// Apply CORS globally
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));  // Handles preflight OPTIONS requests
+
 // Middleware
-app.use(cors(corsOptions)); // Apply CORS globally
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
@@ -46,19 +50,16 @@ app.use('/catering', cateringRoute);
 app.use('/deliveryboy', deliveryRoute);
 app.use('/reviews', reviewRoute);
 
-// Preflight OPTIONS request handling
-app.options('*', cors(corsOptions));  // Handle preflight requests
-
 // MongoDB Connection
 mongoose.connect(MONGO_URI)
-    .then(() => {
-        console.log('MongoDB connected...');
-    })
-    .catch((err) => {
-        console.error('MongoDB connection error:', err);
-    });
+  .then(() => {
+    console.log('MongoDB connected...');
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+  });
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`Server is running at PORT ${PORT}`);
+  console.log(`Server is running at PORT ${PORT}`);
 });
