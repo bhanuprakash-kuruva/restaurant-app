@@ -39,6 +39,7 @@ app.use('/chef',chefRoute)
 app.use('/catering',cors(corsOptions),cateringRoute)
 app.use('/deliveryboy',deliveryRoute)
 app.use('/reviews',cors(corsOptions),reviewRoute)
+console.log(process.env.MONGO_URL)
 mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('MongoDB connected...');
