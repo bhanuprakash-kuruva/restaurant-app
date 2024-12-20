@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 8011;
 const MONGO_URI = process.env.MONGO_URL;
 
 const corsOptions = {
-  origin: 'https://restaurant-app-frontend-ruby.vercel.app',  // Remove trailing slash
+  origin: '*',  // Remove trailing slash
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,  // Allow cookies to be sent with requests
