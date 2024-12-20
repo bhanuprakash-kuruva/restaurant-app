@@ -1,154 +1,4 @@
-// import React, { useState } from 'react';
-// import TapasIcon from '@mui/icons-material/Tapas';
-// import { Box, TextField, Typography, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
-// import Visibility from '@mui/icons-material/Visibility';
-// import VisibilityOff from '@mui/icons-material/VisibilityOff';
-// import Layout from '../components/Layout/Layout';
-// import { Link, useNavigate } from 'react-router-dom';
-// import { useUser } from '../contextAPI/context';
 
-
-// const Signin = () => {
-//   const { login } = useUser();
-//   const navigate = useNavigate();
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [user,setUser] = useState('')
-//   const [showPassword, setShowPassword] = useState(false);
-
-//   // Email validation
-//   const validateEmail = (email) => {
-//     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-//     return regex.test(email);
-//   };
-
-//   // Password validation (simple example for minimum length)
-//   const validatePassword = (password) => {
-//     return password.length >= 8;
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-    
-//     // Input validations
-//     if (!validateEmail(email)) {
-//       alert('Please enter a valid email');
-//       return;
-//     } else if (!validatePassword(password)) {
-//       alert('Password must be at least 8 characters');
-//       return;
-//     }
-
-//     // Sending request to sign in
-//     try {
-//       const response = await fetch('http://localhost:8011/customer/signin', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ email, password }),
-//       });
-
-//       if (!response.ok) {
-//         const errorData = await response.json();
-//         alert(errorData.message || 'Error during sign-in');
-//         return;
-//       }
-
-//       const data = await response.json();
-//       console.log('Success:', data);
-//       // Pass the user data or token if available to the menu
-//       login(email);
-//       const dataToSend = { email:email };
-//       // navigate('/menu', { state: { email } });
-//       navigate('/menu')
-//       // Clear the form after successful login
-//       setEmail('');
-//       setPassword('');
-//       setUser('')
-//     } catch (error) {
-//       console.error('Error:', error);
-//       alert('Network error. Please try again.');
-//     }
-//   };
-
-//   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-//   const handleMouseDownPassword = (event) => {
-//     event.preventDefault();
-//   };
-
-//   return (
-//     <Layout>
-//       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
-//         <Box
-//           sx={{
-//             display: 'flex',
-//             flexDirection: 'column',
-//             alignItems: 'center',
-//             p: 3,
-//             boxShadow: 3,
-//             borderRadius: 2,
-//             maxWidth: 400,
-//             width: '100%',
-//           }}
-//         >
-//           <TapasIcon color="goldenrod" />
-//           <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-//             Sign In
-//           </Typography>
-//           <TextField
-//             id="outlined-email"
-//             label="Enter your Email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//             variant="outlined"
-//             fullWidth
-//             sx={{ mb: 2 }}
-//           />
-//           <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
-//             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-//             <OutlinedInput
-//               id="outlined-adornment-password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               type={showPassword ? 'text' : 'password'}
-//               endAdornment={
-//                 <InputAdornment position="end">
-//                   <IconButton
-//                     aria-label={showPassword ? 'Hide password' : 'Show password'}
-//                     onClick={handleClickShowPassword}
-//                     onMouseDown={handleMouseDownPassword}
-//                   >
-//                     {showPassword ? <VisibilityOff /> : <Visibility />}
-//                   </IconButton>
-//                 </InputAdornment>
-//               }
-//               label="Password"
-//             />
-//             <TextField
-//             id="outlined-email"
-//             label="Enter User Type"
-//             value={user}
-//             onChange={(e) => setUser(e.target.value)}
-//             variant="outlined"
-//             fullWidth
-//             sx={{ my: 2 }}
-//           />
-//             <Typography sx={{ mt: 1 }}>
-//               Don't have an account? <Link to="/signup">Sign Up</Link>
-//             </Typography>
-//           </FormControl>
-//           <Button variant="contained" color="success" onClick={handleSubmit} fullWidth>
-//             Sign In
-//           </Button>
-//         </Box>
-//       </Box>
-//     </Layout>
-//   );
-// };
-
-// export default Signin;
 import React, { useState } from 'react';
 import TapasIcon from '@mui/icons-material/Tapas';
 import { Box, TextField, Typography, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Snackbar, Alert } from '@mui/material';
@@ -195,11 +45,12 @@ const Signin = () => {
     console.log(user)
     // Sending request to sign in
     try {
-      const response = await fetch('http://localhost:8011/customer/signin', {
+      const response = await fetch('https://restaurant-app-three-pied.vercel.app/customer/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ email, password,user }),
       });
 

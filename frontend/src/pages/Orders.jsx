@@ -16,7 +16,7 @@ const OrderPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8011/orders/${email}`);
+        const response = await fetch(`https://restaurant-app-three-pied.vercel.app/orders/${email}`);
         if (!response.ok) {
           throw new Error('Failed to fetch orders');
         }
@@ -36,7 +36,7 @@ const OrderPage = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('http://localhost:8011/item/menu-items'); // API endpoint for menu items
+        const response = await fetch('https://restaurant-app-three-pied.vercel.app/item/menu-items'); // API endpoint for menu items
         if (!response.ok) {
           throw new Error('Failed to fetch menu items');
         }
@@ -55,7 +55,7 @@ const OrderPage = () => {
     if (email) {
       const fetchUserDetails = async () => {
         try {
-          const response = await fetch(`http://localhost:8011/customer/profile/${email}`);
+          const response = await fetch(`https://restaurant-app-three-pied.vercel.app/customer/profile/${email}`);
           if (!response.ok) {
             throw new Error('Failed to fetch user details');
           }
