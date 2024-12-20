@@ -19,18 +19,19 @@ const app = express();
 const PORT = process.env.PORT || 8011;
 const MONGO_URI = process.env.MONGO_URL;
 
+// CORS Configuration
 const corsOptions = {
-  origin: '*',  // Remove trailing slash
+  origin: 'https://restaurant-app-frontend-ruby.vercel.app', // Replace with your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,  // Allow cookies to be sent with requests
+  credentials: true, // Allow cookies or credentials
 };
 
 // Apply CORS globally
 app.use(cors(corsOptions));
 
 // Handle preflight requests
-app.options('*', cors(corsOptions));  // Handles preflight OPTIONS requests
+app.options('*', cors(corsOptions));
 
 // Middleware
 app.use(express.json());
