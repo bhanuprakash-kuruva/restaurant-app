@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       // This will proxy any request starting with /customer to the backend URL
-      '/customer': {
+      '/': {
         target: 'https://restaurant-app-three-pied.vercel.app', // Backend URL
         changeOrigin: true, // Ensures the origin of the request matches the target
         // secure: false, // Set to false if the backend is HTTP (and not HTTPS)
