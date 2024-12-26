@@ -42,14 +42,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-app.use('/customer', cors(corsOptions), customerRoute);
+app.use('/customer', customerRoute);
 app.use('/admin', adminRoute);
-app.use('/item', cors(corsOptions), itemRoute);
-app.use('/orders', cors(corsOptions), orderRoute);
+app.use('/item', itemRoute);
+app.use('/orders', orderRoute);
 app.use('/chef', chefRoute);
-app.use('/catering', cors(corsOptions), cateringRoute);
+app.use('/catering', cateringRoute);
 app.use('/deliveryboy', deliveryRoute);
-app.use('/reviews', cors(corsOptions), reviewRoute);
+app.use('/reviews', reviewRoute);
 
 // MongoDB Connection
 mongoose.connect(MONGO_URI)
