@@ -21,7 +21,7 @@ const MONGO_URI = process.env.MONGO_URL;
 
 // CORS Configuration
 const corsOptions = {
-  origin: 'https://restaurant-app-frontend-ruby.vercel.app', // Replace with your frontend URL
+  origin: 'http://localhost:5173', // Replace with your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // Allow cookies or credentials
 };

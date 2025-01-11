@@ -73,7 +73,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('https://restaurant-app-three-pied.vercel.app/item/menu-items'); // Replace with your backend API
+        const response = await fetch('http://localhost:8011/item/menu-items'); // Replace with your backend API
         if (response.ok) {
           const data = await response.json();
           setMenuItems(data); // Update state with fetched menu items
@@ -184,7 +184,7 @@ const Menu = () => {
     }));
     console.log(email)
     try {
-      const response = await fetch('https://restaurant-app-three-pied.vercel.app/orders', {
+      const response = await fetch('http://localhost:8011/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items, customerName: email }),
@@ -209,7 +209,7 @@ const Menu = () => {
 
   const handleLike = async (menuId) => {
     try {
-      const response = await fetch(`https://restaurant-app-three-pied.vercel.app/item/update-likes/${menuId}`, {
+      const response = await fetch(`http://localhost:8011/item/update-likes/${menuId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -234,7 +234,7 @@ const Menu = () => {
   // Handle dislike
   const handleDislike = async (menuId) => {
     try {
-      const response = await fetch(`https://restaurant-app-three-pied.vercel.app/item/update-dislikes/${menuId}`, {
+      const response = await fetch(`http://localhost:8011/item/update-dislikes/${menuId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -266,7 +266,7 @@ const Menu = () => {
 
   const handleCartClick = async (itemId) => {
     try {
-      const response = await fetch(`https://restaurant-app-three-pied.vercel.app/customer/wishlist/${email}/${itemId}`, {
+      const response = await fetch(`http://localhost:8011/customer/wishlist/${email}/${itemId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

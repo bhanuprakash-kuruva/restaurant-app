@@ -17,7 +17,7 @@ const DeliveryBoys = () => {
   useEffect(() => {
     const fetchDeliveryBoys = async () => {
       try {
-        const response = await fetch('https://restaurant-app-three-pied.vercel.app/deliveryboy/show');
+        const response = await fetch('http://localhost:8011/deliveryboy/show');
         if (!response.ok) {
           throw new Error('Failed to fetch delivery boy details');
         }

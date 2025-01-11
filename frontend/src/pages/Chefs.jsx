@@ -33,7 +33,7 @@ const Chefs = () => {
   useEffect(() => {
     const fetchChefs = async () => {
       try {
-        const response = await fetch('https://restaurant-app-three-pied.vercel.app/chef/showchefs');
+        const response = await fetch('http://localhost:8011/chef/showchefs');
         if (!response.ok) {
           throw new Error('Failed to fetch chef details');
         }
@@ -79,7 +79,7 @@ const Chefs = () => {
     formData.append('image', newChef.image);
 
     try {
-      const response = await fetch('https://restaurant-app-three-pied.vercel.app/chef/addchef', {
+      const response = await fetch('http://localhost:8011/chef/addchef', {
         method: 'POST',
         body: formData,
       });

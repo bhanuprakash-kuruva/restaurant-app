@@ -58,7 +58,7 @@ const AddDeliveryBoy = () => {
     formData.append('imageURL', newDeliveryBoy.imageURL);
 
     try {
-      const response = await fetch('https://restaurant-app-three-pied.vercel.app/deliveryboy/add', {
+      const response = await fetch('http://localhost:8011/deliveryboy/add', {
         method: 'POST',
         body: formData,
       });

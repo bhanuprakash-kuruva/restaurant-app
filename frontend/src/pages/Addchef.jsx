@@ -48,7 +48,7 @@ const AddChefs = () => {
     formData.append('image', newChef.image);
 
     try {
-      const response = await fetch('https://restaurant-app-three-pied.vercel.app/chef/addchef', {
+      const response = await fetch('http://localhost:8011/chef/addchef', {
         method: 'POST',
         body: formData,
       });

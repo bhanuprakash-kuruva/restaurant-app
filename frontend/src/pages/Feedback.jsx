@@ -42,7 +42,7 @@ const ReviewPage = () => {
       formData.append('image', file);
     }
 
-    fetch('https://restaurant-app-three-pied.vercel.app/reviews', {
+    fetch('http://localhost:8011/reviews', {
       method: 'POST',
       body: formData,
     })
