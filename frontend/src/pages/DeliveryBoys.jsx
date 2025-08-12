@@ -17,7 +17,7 @@
 //   useEffect(() => {
 //     const fetchDeliveryBoys = async () => {
 //       try {
-//         const response = await fetch('http://localhost:8071/deliveryboy/show');
+//         const response = await fetch('https://restaurant-app-backend-mu.vercel.app//deliveryboy/show');
 //         if (!response.ok) {
 //           throw new Error('Failed to fetch delivery boy details');
 //         }
@@ -50,7 +50,7 @@
 //               <CardMedia
 //                 component="img"
 //                 height="200"
-//                 image={`http://localhost:8071${db.imageURL}`}
+//                 image={`https://restaurant-app-backend-mu.vercel.app/${db.imageURL}`}
 //                 alt={`${db.firstName} ${db.lastName}`}
 //               />
 //               <CardContent>
@@ -108,7 +108,7 @@ const DeliveryBoys = () => {
   useEffect(() => {
     const fetchDeliveryBoys = async () => {
       try {
-        const response = await fetch('http://localhost:8071/deliveryboy/show');
+        const response = await fetch('https://restaurant-app-backend-mu.vercel.app//deliveryboy/show');
         if (!response.ok) {
           throw new Error('Failed to fetch delivery boy details');
         }

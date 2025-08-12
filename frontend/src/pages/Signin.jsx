@@ -45,7 +45,7 @@ const Signin = () => {
     console.log(email, password,userRole )
     // Sending request to sign in
     try {
-      const response = await fetch('http://localhost:8071/customer/signin', {
+      const response = await fetch('https://restaurant-app-backend-mu.vercel.app//customer/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

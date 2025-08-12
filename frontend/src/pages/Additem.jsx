@@ -54,7 +54,7 @@
 
 //     try {
 //       // Send the form data including the image file
-//       const response = await fetch('http://localhost:8071/item/addItem', {
+//       const response = await fetch('https://restaurant-app-backend-mu.vercel.app//item/addItem', {
 //         method: 'POST',
 //         body: newFormData,
 //       });
@@ -211,7 +211,7 @@ const AddItem = () => {
   //   Object.entries(formData).forEach(([key, val]) => newFormData.append(key, val));
   //   console.log(newFormData)
   //   try {
-  //     const response = await fetch('http://localhost:8071/item/addItem', {
+  //     const response = await fetch('https://restaurant-app-backend-mu.vercel.app//item/addItem', {
   //       method: 'POST',
   //       body: newFormData,
   //     });
@@ -250,7 +250,7 @@ const AddItem = () => {
     }
   
     try {
-      const response = await fetch('http://localhost:8071/admin/addItem', {
+      const response = await fetch('https://restaurant-app-backend-mu.vercel.app//admin/addItem', {
         method: 'POST',
         body: newFormData,
       });

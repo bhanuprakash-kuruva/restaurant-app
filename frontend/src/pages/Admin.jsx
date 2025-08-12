@@ -32,19 +32,19 @@
 //         setLoading(true);
 
 //         // Fetch chefs data
-//         const chefsResponse = await fetch('http://localhost:8071/chef/showchefs');
+//         const chefsResponse = await fetch('https://restaurant-app-backend-mu.vercel.app//chef/showchefs');
 //         if (!chefsResponse.ok) throw new Error('Failed to fetch chefs data');
 //         const chefsData = await chefsResponse.json();
 //         setChefs(chefsData.chef);
 //         console.log(chefs)
 //         // Fetch items data
-//         const itemsResponse = await fetch('http://localhost:8071/item/menu-items');
+//         const itemsResponse = await fetch('https://restaurant-app-backend-mu.vercel.app//item/menu-items');
 //         if (!itemsResponse.ok) throw new Error('Failed to fetch items data');
 //         const itemsData = await itemsResponse.json();
 //         setItems(itemsData);
 //         console.log(items)
 
-//         const deliveryBoyResponse = await fetch('http://localhost:8071/deliveryboy/show')
+//         const deliveryBoyResponse = await fetch('https://restaurant-app-backend-mu.vercel.app//deliveryboy/show')
 //         if (!deliveryBoyResponse) throw new Error('Failed to fetch delivery boys')
 //         const deliveryBoysData = await deliveryBoyResponse.json()
 //         setDeliveryBoys(deliveryBoysData.deliverboys)
@@ -62,7 +62,7 @@
 //   useEffect(() => {
 //     const fetchEvents = async () => {
 //       try {
-//         const response = await fetch('http://localhost:8071/catering/getEvents');
+//         const response = await fetch('https://restaurant-app-backend-mu.vercel.app//catering/getEvents');
 //         if (response.ok) {
 //           const data = await response.json();
 //           setEventsData(data.events);
@@ -456,22 +456,22 @@ function AdminPage() {
       try {
         setLoading(true);
 
-        const chefsRes = await fetch('http://localhost:8071/chef/showchefs');
+        const chefsRes = await fetch('https://restaurant-app-backend-mu.vercel.app//chef/showchefs');
         if (!chefsRes.ok) throw new Error('Failed to fetch chefs data');
         const chefsData = await chefsRes.json();
         setChefs(chefsData.chef);
 
-        const itemsRes = await fetch('http://localhost:8071/item/menu-items');
+        const itemsRes = await fetch('https://restaurant-app-backend-mu.vercel.app//item/menu-items');
         if (!itemsRes.ok) throw new Error('Failed to fetch items data');
         const itemsData = await itemsRes.json();
         setItems(itemsData);
 
-        const deliveryRes = await fetch('http://localhost:8071/deliveryboy/show');
+        const deliveryRes = await fetch('https://restaurant-app-backend-mu.vercel.app//deliveryboy/show');
         if (!deliveryRes.ok) throw new Error('Failed to fetch delivery boys');
         const deliveryData = await deliveryRes.json();
         setDeliveryBoys(deliveryData.deliverboys);
 
-        const eventsRes = await fetch('http://localhost:8071/catering/getEvents');
+        const eventsRes = await fetch('https://restaurant-app-backend-mu.vercel.app//catering/getEvents');
         if (eventsRes.ok) {
           const eventsData = await eventsRes.json();
           setEventsData(eventsData.events);

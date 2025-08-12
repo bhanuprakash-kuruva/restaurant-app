@@ -42,7 +42,7 @@
 //       formData.append('image', file);
 //     }
 
-//     fetch('http://localhost:8071/reviews', {
+//     fetch('https://restaurant-app-backend-mu.vercel.app//reviews', {
 //       method: 'POST',
 //       body: formData,
 //     })
@@ -351,7 +351,7 @@ const ReviewPage = () => {
       formData.append('image', file);
     }
 
-    fetch('http://localhost:8071/reviews', {
+    fetch('https://restaurant-app-backend-mu.vercel.app//reviews', {
       method: 'POST',
       body: formData
     })

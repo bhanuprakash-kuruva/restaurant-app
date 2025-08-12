@@ -38,7 +38,7 @@ export default function CateringForm() {
 
     try {
       // Send POST request using fetch API
-      const response = await fetch(`http://localhost:8071/catering/${email}`, {
+      const response = await fetch(`https://restaurant-app-backend-mu.vercel.app//catering/${email}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Specify the content type as JSON
