@@ -13,15 +13,16 @@ const DeliverBoyOrders = () => {
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const {role} =useUser()
   const navigate = useNavigate()
-  useEffect(()=>{
-    if(role !=='DELIVERY BOY' && role !=='ADMIN'){
-      navigate('/needaccess')
+  useEffect(() => {
+    if (role !== 'DELIVERYBOY' && role !== 'ADMIN') {
+      navigate('/needaccess');
     }
-  },[])
+  }, [role, navigate]);
+  
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await fetch('http://localhost:8011/item/menu-items');
+                const response = await fetch('http://localhost:8071/item/menu-items');
                 if (!response.ok) {
                     throw new Error('Failed to fetch menu items');
                 }
@@ -37,7 +38,7 @@ const DeliverBoyOrders = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch('http://localhost:8011/orders/deliveryboy/showpendingorders');
+                const response = await fetch('http://localhost:8071/orders/deliveryboy/showpendingorders');
                 if (!response.ok) {
                     throw new Error('Failed to fetch orders');
                 }
@@ -79,7 +80,7 @@ const DeliverBoyOrders = () => {
 
     const handleStatusChange = async (orderId, newStatus) => {
         try {
-            const response = await fetch(`http://localhost:8011/orders/changestatus/${orderId}`, {
+            const response = await fetch(`http://localhost:8071/orders/changestatus/${orderId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

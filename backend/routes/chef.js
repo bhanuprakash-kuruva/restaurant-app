@@ -1,64 +1,70 @@
-const Chef = require('../models/chef')
-const express = require('express')
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
+const express = require('express');
+const multer = require('multer');
+const stream = require('stream');
+const Chef = require('../models/chef');
+const cloudinary = require('../config/cloudinary');
 
-const router = express.Router()
+const router = express.Router();
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      // Create 'uploads' folder if it doesn't exist
-      const uploadDir = path.join(__dirname, '../uploads');
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir);
-      }
-      cb(null, uploadDir); // Directory where images will be stored
-    },
-    filename: (req, file, cb) => {
-      // Generate a unique filename using the timestamp and file extension
-      cb(null, Date.now() + path.extname(file.originalname));
-    },
-  });
+// Use memory storage for Cloudinary uploads
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-const upload = multer({storage})
-router.post('/addchef',upload.single('image'),async(req,res)=>{
-    const {name,description,experience,speciality,rating} = req.body
-    console.log(req.file)
+// ✅ Route to add a chef with image upload to Cloudinary
+router.post('/addchef', upload.single('image'), async (req, res) => {
+    const { name, description, experience, speciality, rating } = req.body;
+
     if (!req.file) {
         return res.status(400).json({ message: 'Image is required' });
-      }
-
-      const imageURL = `/uploads/${req.file.filename}`;
-      console.log(name,description,experience,speciality,rating,imageURL)
-    try{
-        const newChef = new Chef({
-            name,
-            description,
-            experience,
-            speciality,
-            rating,
-            imageURL
-        })
-        await newChef.save();
-    res.status(201).json({ message: 'Chef added successfully', chef: newChef });
-    }catch (error) {
-        console.error('Error adding chef:', error);
-        res.status(500).json({ message: 'Error adding chef', error });
-      }
-})
-
-router.get('/showchefs',async(req,res)=>{
-    try{
-        const chefs = await Chef.find({})
-        if(!chefs){
-           return res.status(404).json({message:'chefs not found.'})
-        }
-       return res.status(200).json({chef:chefs})
-    }catch(err){
-       return res.status(500).json({message:"Server error"})
     }
-})
 
+    try {
+        const bufferStream = new stream.PassThrough();
+        bufferStream.end(req.file.buffer);
 
-module.exports = router
+        const uploadStream = cloudinary.uploader.upload_stream(
+            { folder: 'chefs' },
+            async (error, result) => {
+                if (error) {
+                    console.error('Cloudinary upload error:', error);
+                    return res.status(500).json({ message: 'Image upload failed', error: error.message });
+                }
+
+                const imageURL = result.secure_url;
+
+                const newChef = new Chef({
+                    name,
+                    description,
+                    experience,
+                    speciality,
+                    rating,
+                    imageURL,
+                });
+
+                await newChef.save();
+                res.status(201).json({ message: 'Chef added successfully', chef: newChef });
+            }
+        );
+
+        bufferStream.pipe(uploadStream);
+    } catch (error) {
+        console.error('Error adding chef:', error);
+        res.status(500).json({ message: 'Error adding chef', error: error.message });
+    }
+});
+
+// ✅ Route to get all chefs
+router.get('/showchefs', async (req, res) => {
+    try {
+        const chefs = await Chef.find({});
+        if (!chefs || chefs.length === 0) {
+            return res.status(404).json({ message: 'No chefs found.' });
+        }
+        return res.status(200).json({ chef: chefs });
+    } catch (err) {
+        console.error('Error fetching chefs:', err);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
+
+module.exports = router;

@@ -63,7 +63,8 @@ const Signup = () => {
       };
 
       try {
-        const response = await fetch('http://localhost:8011/customer/signup', {
+        console.log(userData)
+        const response = await fetch('http://localhost:8071/customer/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -72,6 +73,7 @@ const Signup = () => {
         });
 
         if (response.ok) {
+          console.log(response)
           const result = await response.json();
           navigate('/signin'); 
           alert(result.message); // The server is returning a success message

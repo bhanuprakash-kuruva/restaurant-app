@@ -13,7 +13,7 @@ const Signin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState('');
+  const [userRole, setUserRole] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null); // To hold error message for Snackbar
   const [openSnackbar, setOpenSnackbar] = useState(false); // Control Snackbar visibility
@@ -42,16 +42,16 @@ const Signin = () => {
       setOpenSnackbar(true);
       return;
     }
-    console.log(user)
+    console.log(email, password,userRole )
     // Sending request to sign in
     try {
-      const response = await fetch('http://localhost:8011/customer/signin', {
+      const response = await fetch('http://localhost:8071/customer/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ email, password,user }),
+        body: JSON.stringify({ email, password,userRole }),
       });
 
       if (!response.ok) {
@@ -70,7 +70,7 @@ const Signin = () => {
       // Clear the form after successful login
       setEmail('');
       setPassword('');
-      setUser('');
+      setUserRole('');
     } catch (error) {
       console.error('Error:', error);
       setError('Network error. Please try again.');
@@ -136,8 +136,8 @@ const Signin = () => {
             <TextField
               id="outlined-user-type"
               label="Enter User Type"
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
+              value={userRole}
+              onChange={(e) => setUserRole(e.target.value)}
               variant="outlined"
               fullWidth
               sx={{ my: 2 }}

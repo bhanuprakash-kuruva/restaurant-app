@@ -1,28 +1,31 @@
-const express = require('express')
-const { addDeliveryBoy, showDeliveryBoys } = require('../controllers/delivery.js')
-const router = express.Router()
-const multer = require('multer')
-const fs = require('fs')
-const path = require('path')
+// const express = require('express');
+// const { addDeliveryBoy, showDeliveryBoys } = require('../controllers/delivery.js');
+// const router = express.Router();
+// const multer = require('multer');
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        // Create 'uploads' folder if it doesn't exist
-        const uploadDir = path.join(__dirname, '../uploads');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir);
-        }
-        cb(null, uploadDir); // Directory where images will be stored
-    },
-    filename: (req, file, cb) => {
-        // Generate a unique filename using the timestamp and file extension
-        cb(null, Date.now() + path.extname(file.originalname));
-    },
-});
+// // use memory storage for multer
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage });
 
-const upload = multer({ storage: storage });
+// router.post('/add', upload.single('imageURL'), addDeliveryBoy);
+// router.get('/show', showDeliveryBoys);
 
-router.post('/add', upload.single('imageURL'), addDeliveryBoy)
-router.get('/show',showDeliveryBoys)
+// module.exports = router;
 
-module.exports = router
+const express = require('express');
+const { addDeliveryBoy, showDeliveryBoys } = require('../controllers/delivery.js');
+const router = express.Router();
+const multer = require('multer');
+
+// Use memory storage to keep file buffer in memory for Cloudinary upload
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+// Route to add a delivery boy with image upload (field name: imageURL)
+router.post('/add', upload.single('imageURL'), addDeliveryBoy);
+
+// Route to fetch all delivery boys
+router.get('/show', showDeliveryBoys);
+
+module.exports = router;
+

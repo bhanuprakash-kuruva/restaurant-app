@@ -16,7 +16,7 @@ const reviewRoute = require('./routes/review');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8011;
+const PORT = process.env.PORT || 8071;
 const MONGO_URI = process.env.MONGO_URL;
 
 // CORS Configuration

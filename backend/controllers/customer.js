@@ -112,47 +112,119 @@ async function updateProfile(req, res) {
 
 
 
-async function validateCustomer(req, res) {
-    const { email, password,user } = req.body;
-    console.log(email, password,user);
-    const r = user
-    try {
-        // Find the user by email
-        const user = await Customer.findOne({ email });
+// async function validateCustomer(req, res) {
+//     const { email, password,user } = req.body;
+//     console.log(email, password,user);
+//     const r = user
+//     try {
+//         // Find the user by email
+//         const user = await Customer.findOne({ email });
 
+//         if (!user) {
+//             // If no user found with the provided email
+//             return res.status(404).json({ message: 'User not found' });
+//         }
+//         console.log(user)
+//         // Compare the provided password with the hashed password in the database
+//         const isPasswordMatch = await bcrypt.compare(password, user.password);
+//         console.log(isPasswordMatch)
+//         const hashedPassword = await bcrypt.hash(password, 10);
+//         console.log(hashedPassword)
+//         console.log(user.password)
+//         if (isPasswordMatch) {
+//             // If passwords match
+//             console.log('Password match result:', isPasswordMatch);
+//             if(password===process.env.ADMIN_SECRET && r ==='ADMIN'){
+//                 return res.status(200).json({ message: 'User found',role: "ADMIN" });
+//             }
+//             else if(password===process.env.DELIVERY_SECRET && r==='DELIVERY BOY'){
+//                 return res.status(200).json({ message: 'User found',role: "DELIVERY BOY" });
+//             }
+//             else{
+//                 return res.status(200).json({ message: 'User found',role: "CUSTOMER" });
+//             }
+//         } else {
+//             // If passwords do not match
+//             return res.status(401).json({ message: 'Invalid password' });
+//         }
+
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: 'Server error' });
+//     }
+// }
+// async function validateCustomer(req, res) {
+//     const { email, password, userRole } = req.body; // renamed user to userRole for clarity
+//     console.log(email, password, userRole);
+
+//     try {
+//         // Find the user by email
+//         const user = await Customer.findOne({ email:email });
+//         console.log(user)
+//         if (!user) {
+//             return res.status(404).json({ message: 'User not found' });
+//         }
+//         console.log(user);
+
+//         // Compare the provided password with the hashed password in DB
+//         const isPasswordMatch = await bcrypt.compare(password, user.password);
+//         console.log('Password match:', isPasswordMatch);
+
+//         if (!isPasswordMatch) {
+//             return res.status(401).json({ message: 'Invalid password' });
+//         }
+
+//         // Password matches, now check role with possible secret keys
+//         if (password === process.env.ADMIN_SECRET && userRole === 'ADMIN') {
+//             return res.status(200).json({ message: 'User found', role: 'ADMIN' });
+//         } else if (password === process.env.DELIVERY_SECRET && userRole === 'DELIVERYBOY') {
+//             return res.status(200).json({ message: 'User found', role: 'DELIVERYBOY' });
+//         } else {
+//             // Default to CUSTOMER role (or the role stored on user document)
+//             return res.status(200).json({ message: 'User found', role: user.role || 'CUSTOMER' });
+//         }
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: 'Server error' });
+//     }
+// }
+async function validateCustomer(req, res) {
+    const { email, password, userRole } = req.body;
+    console.log(email, password, userRole);
+
+    try {
+        // First: handle special role logins without DB password
+        if (userRole === 'DELIVERYBOY' && password === process.env.DELIVERY_SECRET) {
+            return res.status(200).json({ message: 'User found', role: 'DELIVERYBOY' });
+        }
+
+        if (userRole === 'ADMIN' && password === process.env.ADMIN_SECRET) {
+            return res.status(200).json({ message: 'User found', role: 'ADMIN' });
+        }
+
+        // Otherwise: normal DB user lookup
+        const user = await Customer.findOne({ email });
         if (!user) {
-            // If no user found with the provided email
             return res.status(404).json({ message: 'User not found' });
         }
-        console.log(user)
-        // Compare the provided password with the hashed password in the database
+
+        if (!user.password) {
+            return res.status(401).json({ message: 'Password not set for this user' });
+        }
+
         const isPasswordMatch = await bcrypt.compare(password, user.password);
-        console.log(isPasswordMatch)
-        const hashedPassword = await bcrypt.hash(password, 10);
-        console.log(hashedPassword)
-        console.log(user.password)
-        if (isPasswordMatch) {
-            // If passwords match
-            console.log('Password match result:', isPasswordMatch);
-            if(password===process.env.ADMIN_SECRET && r ==='ADMIN'){
-                return res.status(200).json({ message: 'User found',role: "ADMIN" });
-            }
-            else if(password===process.env.DELIVERY_SECRET && r==='DELIVERY BOY'){
-                return res.status(200).json({ message: 'User found',role: "DELIVERY BOY" });
-            }
-            else{
-                return res.status(200).json({ message: 'User found',role: "CUSTOMER" });
-            }
-        } else {
-            // If passwords do not match
+        if (!isPasswordMatch) {
             return res.status(401).json({ message: 'Invalid password' });
         }
+
+        return res.status(200).json({ message: 'User found', role: user.role || 'CUSTOMER' });
 
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });
     }
 }
+
 
 
 async function addToWishlist(req, res) {
