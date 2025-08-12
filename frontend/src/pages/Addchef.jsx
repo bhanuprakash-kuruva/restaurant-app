@@ -48,7 +48,7 @@
 //     formData.append('image', newChef.image);
 
 //     try {
-//       const response = await fetch('https://restaurant-app-backend-mu.vercel.app//chef/addchef', {
+//       const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//chef/addchef', {
 //         method: 'POST',
 //         body: formData,
 //       });
@@ -213,7 +213,7 @@ const AddChefs = () => {
     Object.keys(newChef).forEach(key => formData.append(key, newChef[key]));
 
     try {
-      const response = await fetch('https://restaurant-app-backend-mu.vercel.app//chef/addchef', {
+      const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//chef/addchef', {
         method: 'POST',
         body: formData,
       });

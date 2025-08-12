@@ -64,7 +64,7 @@ const Signup = () => {
 
       try {
         console.log(userData)
-        const response = await fetch('https://restaurant-app-backend-mu.vercel.app//customer/signup', {
+        const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//customer/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

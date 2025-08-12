@@ -58,7 +58,7 @@
 //     formData.append('imageURL', newDeliveryBoy.imageURL);
 
 //     try {
-//       const response = await fetch('https://restaurant-app-backend-mu.vercel.app//deliveryboy/add', {
+//       const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//deliveryboy/add', {
 //         method: 'POST',
 //         body: formData,
 //       });
@@ -224,7 +224,7 @@ const AddDeliveryBoy = () => {
 
   //   try {
   //     console.log(formData)
-  //     const response = await fetch('https://restaurant-app-backend-mu.vercel.app//deliveryboy/add', {
+  //     const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//deliveryboy/add', {
   //       method: 'POST',
   //       body: formData,
   //     });
@@ -266,7 +266,7 @@ const AddDeliveryBoy = () => {
     }
   
     try {
-      const response = await fetch('https://restaurant-app-backend-mu.vercel.app//deliveryboy/add', {
+      const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//deliveryboy/add', {
         method: 'POST',
         body: formData,
       });

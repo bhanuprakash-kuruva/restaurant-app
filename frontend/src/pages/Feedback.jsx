@@ -42,7 +42,7 @@
 //       formData.append('image', file);
 //     }
 
-//     fetch('https://restaurant-app-backend-mu.vercel.app//reviews', {
+//     fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//reviews', {
 //       method: 'POST',
 //       body: formData,
 //     })
@@ -351,7 +351,7 @@ const ReviewPage = () => {
       formData.append('image', file);
     }
 
-    fetch('https://restaurant-app-backend-mu.vercel.app//reviews', {
+    fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//reviews', {
       method: 'POST',
       body: formData
     })

@@ -67,7 +67,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('https://restaurant-app-backend-mu.vercel.app//item/menu-items'); // Replace with your backend API
+        const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//item/menu-items'); // Replace with your backend API
         if (response.ok) {
           const data = await response.json();
           setMenuItems(data); // Update state with fetched menu items
@@ -126,7 +126,7 @@ const Menu = () => {
   // const handleLike = async (menuId) => {
   //   try {
   //     // Send a request to the backend to update the like
-  //     const response = await fetch(`https://restaurant-app-backend-mu.vercel.app//item/update-likes/${menuId}`,{
+  //     const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//item/update-likes/${menuId}`,{
   //       method:'POST',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ const Menu = () => {
   // const handleDislike = async (menuId) => {
   //   try {
   //     // Send a request to the backend to update the like
-  //     const response = await fetch(`https://restaurant-app-backend-mu.vercel.app//item/update-dislikes/${menuId}`,{
+  //     const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//item/update-dislikes/${menuId}`,{
   //       method:'POST',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ const Menu = () => {
     }));
 
     try {
-      const response = await fetch('https://restaurant-app-backend-mu.vercel.app//orders', {
+      const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items, customerName: email }),
@@ -201,7 +201,7 @@ const Menu = () => {
 
   const handleLike = async (menuId) => {
     try {
-      const response = await fetch(`https://restaurant-app-backend-mu.vercel.app//item/update-likes/${menuId}`, {
+      const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//item/update-likes/${menuId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -226,7 +226,7 @@ const Menu = () => {
   // Handle dislike
   const handleDislike = async (menuId) => {
     try {
-      const response = await fetch(`https://restaurant-app-backend-mu.vercel.app//item/update-dislikes/${menuId}`, {
+      const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//item/update-dislikes/${menuId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -258,7 +258,7 @@ const Menu = () => {
 
   const handleCartClick = async (itemId) => {
     try {
-      const response = await fetch(`https://restaurant-app-backend-mu.vercel.app//customer/wishlist/${email}/${itemId}`, {
+      const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//customer/wishlist/${email}/${itemId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -489,7 +489,7 @@ const Menu = () => {
 
 
               {menuItems.map((menu, index) => {
-                const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`;
+                const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`;
 
                 return (
                   <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
@@ -533,7 +533,7 @@ const Menu = () => {
               {menuItems
                 .filter((menu) => menu.category === 'tiffin') // Filter menu items based on category
                 .map((menu, index) => {
-                  const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`;
+                  const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`;
                   
                   return (
                     <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
@@ -577,7 +577,7 @@ const Menu = () => {
               {menuItems
                 .filter((menu) => menu.category === 'Fast Food') // Filter menu items based on category
                 .map((menu, index) => {
-                  const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`;
+                  const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`;
                   
                   return (
                     <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
@@ -619,7 +619,7 @@ const Menu = () => {
             {menuItems
               .filter((menu) => menu.category === 'Full meals') // Filter menu items based on category
               .map((menu, index) => {
-                const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`
+                const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`
                
                 return (
                   <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
@@ -662,7 +662,7 @@ const Menu = () => {
             {menuItems
               .filter((menu) => menu.category === 'Sea food') // Filter menu items based on category
               .map((menu, index) => {
-                const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`
+                const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`
                 
                 return (
                   <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
@@ -705,7 +705,7 @@ const Menu = () => {
             {menuItems
               .filter((menu) => menu.category === 'Snack') // Filter menu items based on category
               .map((menu, index) => {
-                const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`
+                const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`
                 
                 return (
                   <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
@@ -748,7 +748,7 @@ const Menu = () => {
             {menuItems
               .filter((menu) => menu.category === 'Beverage') // Filter menu items based on category
               .map((menu, index) => {
-                const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`
+                const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`
                 
                 return (
                   <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
@@ -791,7 +791,7 @@ const Menu = () => {
             {menuItems
               .filter((menu) => menu.category === 'Salad') // Filter menu items based on category
               .map((menu, index) => {
-                const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`
+                const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`
                 
                 return (
                   <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
@@ -834,7 +834,7 @@ const Menu = () => {
             {menuItems
               .filter((menu) => menu.category === 'Cuisine') // Filter menu items based on category
               .map((menu, index) => {
-                const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`
+                const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`
                 
                 return (
                   <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
@@ -877,7 +877,7 @@ const Menu = () => {
             {menuItems
               .filter((menu) => menu.category === 'Dessert') // Filter menu items based on category
               .map((menu, index) => {
-                const updatedImageURL = `https://restaurant-app-backend-mu.vercel.app/${menu.imageURL}`
+                const updatedImageURL = `https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${menu.imageURL}`
                 
                 return (
                   <Card key={index} sx={{ maxWidth: '350px', display: 'flex', m: 2, backgroundColor: 'rgb(206, 206, 206)' }}>
