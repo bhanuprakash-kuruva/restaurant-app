@@ -45,7 +45,7 @@ const Signin = () => {
     console.log(email, password,userRole )
     // Sending request to sign in
     try {
-      const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//customer/signin', {
+      const response = await fetch('https://restaurant-app-three-pied.vercel.app//customer/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

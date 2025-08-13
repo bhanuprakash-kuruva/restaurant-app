@@ -47,7 +47,7 @@ const Profile = () => {
     // if (email !== null) {
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//customer/profile/${e}`);
+        const response = await fetch(`https://restaurant-app-three-pied.vercel.app//customer/profile/${e}`);
         if (!response.ok) {
           throw new Error('Failed to fetch user details');
         }
@@ -66,7 +66,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//orders/${email}`)
+        const response = await fetch(`https://restaurant-app-three-pied.vercel.app//orders/${email}`)
         if (!response.ok) {
           throw new Error('Failed to fetch user details');
         }
@@ -84,7 +84,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//item/menu-items'); // replace with your API endpoint
+        const response = await fetch('https://restaurant-app-three-pied.vercel.app//item/menu-items'); // replace with your API endpoint
         if (!response.ok) {
           throw new Error('Failed to fetch menu items');
         }
@@ -129,7 +129,7 @@ const Profile = () => {
   const handleRemoveFromWishlist = async (itemId) => {
     try {
       // Remove the item from the wishlist on the backend
-      const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//customer/remove-wishlist-item/${email}`, {
+      const response = await fetch(`https://restaurant-app-three-pied.vercel.app//customer/remove-wishlist-item/${email}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ itemId }),
@@ -150,7 +150,7 @@ const Profile = () => {
   };
   const handleSaveChanges = async () => {
     try {
-      const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//profile/update/${email}`, {
+      const response = await fetch(`https://restaurant-app-three-pied.vercel.app//profile/update/${email}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

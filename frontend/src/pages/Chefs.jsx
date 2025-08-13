@@ -33,7 +33,7 @@
 //   useEffect(() => {
 //     const fetchChefs = async () => {
 //       try {
-//         const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//chef/showchefs');
+//         const response = await fetch('https://restaurant-app-three-pied.vercel.app//chef/showchefs');
 //         if (!response.ok) {
 //           throw new Error('Failed to fetch chef details');
 //         }
@@ -79,7 +79,7 @@
 //     formData.append('image', newChef.image);
 
 //     try {
-//       const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//chef/addchef', {
+//       const response = await fetch('https://restaurant-app-three-pied.vercel.app//chef/addchef', {
 //         method: 'POST',
 //         body: formData,
 //       });
@@ -123,7 +123,7 @@
 //         {chef.map((c) => (
 //           <Grid item xs={12} sm={6} md={4} key={c._id}>
 //             <Card sx={{ maxWidth: 345, mx: 'auto', boxShadow: 3 }}>
-//               <CardMedia component="img" height="200" image={`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app/${c.imageURL}`} alt={c.name} />
+//               <CardMedia component="img" height="200" image={`https://restaurant-app-three-pied.vercel.app/${c.imageURL}`} alt={c.name} />
 //               <CardContent>
 //                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
 //                   <Typography gutterBottom variant="h5" component="div">
@@ -209,7 +209,7 @@ const Chefs = () => {
   useEffect(() => {
     const fetchChefs = async () => {
       try {
-        const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//chef/showchefs');
+        const response = await fetch('https://restaurant-app-three-pied.vercel.app//chef/showchefs');
         if (!response.ok) throw new Error('Failed to fetch chef details');
         const data = await response.json();
         setChef(data.chef);
@@ -276,7 +276,7 @@ const Chefs = () => {
     formData.append('image', newChef.image);
 
     try {
-      const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//chef/addchef', {
+      const response = await fetch('https://restaurant-app-three-pied.vercel.app//chef/addchef', {
         method: 'POST',
         body: formData,
       });

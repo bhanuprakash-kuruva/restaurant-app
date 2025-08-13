@@ -22,7 +22,7 @@ const DeliverBoyOrders = () => {
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//item/menu-items');
+                const response = await fetch('https://restaurant-app-three-pied.vercel.app//item/menu-items');
                 if (!response.ok) {
                     throw new Error('Failed to fetch menu items');
                 }
@@ -38,7 +38,7 @@ const DeliverBoyOrders = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//orders/deliveryboy/showpendingorders');
+                const response = await fetch('https://restaurant-app-three-pied.vercel.app//orders/deliveryboy/showpendingorders');
                 if (!response.ok) {
                     throw new Error('Failed to fetch orders');
                 }
@@ -80,7 +80,7 @@ const DeliverBoyOrders = () => {
 
     const handleStatusChange = async (orderId, newStatus) => {
         try {
-            const response = await fetch(`https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//orders/changestatus/${orderId}`, {
+            const response = await fetch(`https://restaurant-app-three-pied.vercel.app//orders/changestatus/${orderId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

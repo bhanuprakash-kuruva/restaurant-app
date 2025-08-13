@@ -26,7 +26,7 @@ const EventAnalysis = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('https://restaurant-6xfaogsc7-kuruva-bhanu-praashs-projects.vercel.app//catering/getEvents');
+        const response = await fetch('https://restaurant-app-three-pied.vercel.app//catering/getEvents');
         if (response.ok) {
           const data = await response.json();
           setEventsData(data.events);
