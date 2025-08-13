@@ -49,7 +49,7 @@ const SalesAndItemsAnalysis = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch('https://restaurant-app-three-pied.vercel.app//orders/deliveryboy/showorders');
+        const response = await fetch('https://restaurant-app-three-pied.vercel.app/orders/deliveryboy/showorders');
         if (!response.ok) {
           throw new Error('Failed to fetch orders');
         }
@@ -83,7 +83,7 @@ const SalesAndItemsAnalysis = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('https://restaurant-app-three-pied.vercel.app//item/menu-items'); // replace with your API endpoint
+        const response = await fetch('https://restaurant-app-three-pied.vercel.app/item/menu-items'); // replace with your API endpoint
         if (!response.ok) {
           throw new Error('Failed to fetch menu items');
         }
@@ -102,7 +102,7 @@ const SalesAndItemsAnalysis = () => {
   useEffect(() => {
     const fetchRatings = async () => {
       try {
-        const response = await fetch('https://restaurant-app-three-pied.vercel.app//reviews/showreviews'); // Replace with your API endpoint for ratings
+        const response = await fetch('https://restaurant-app-three-pied.vercel.app/reviews/showreviews'); // Replace with your API endpoint for ratings
         if (!response.ok) {
           throw new Error('Failed to fetch ratings');
         }
