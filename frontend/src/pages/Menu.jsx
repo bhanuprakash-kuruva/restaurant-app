@@ -17,7 +17,7 @@ import OrderDialogs from './menu/OrderDialogs';
 import { handleLike, handleDislike, handleCartClick, handleOrderSubmit } from './utils/menuUtils';
 
 const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
-
+console.log(BACKEND_API_URL)
 const Menu = () => {
   const navigate = useNavigate();
   const [menuItems, setMenuItems] = useState([]);
