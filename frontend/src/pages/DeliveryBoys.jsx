@@ -35,6 +35,8 @@ import {
   AssignmentTurnedIn
 } from '@mui/icons-material';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const DeliveryBoys = () => {
   const [deliveryBoys, setDeliveryBoys] = useState([]);
   const [filteredBoys, setFilteredBoys] = useState([]);
@@ -49,7 +51,7 @@ const DeliveryBoys = () => {
     const fetchDeliveryBoys = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:8071/deliveryboy/show');
+        const response = await fetch(`${BACKEND_API_URL}/deliveryboy/show`);
         if (!response.ok) {
           throw new Error('Failed to fetch delivery boy details');
         }

@@ -23,6 +23,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../contextAPI/context';
 import backImg from '../../assets/signup.webp';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const Signin = () => {
   const { login, log } = useUser();
   const navigate = useNavigate();
@@ -48,7 +50,7 @@ const Signin = () => {
 
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8071/customer/signin', {
+      const response = await fetch(`${BACKEND_API_URL}/customer/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

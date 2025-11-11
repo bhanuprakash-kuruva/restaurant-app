@@ -452,6 +452,8 @@ import { Edit as EditIcon, AccountCircle as AccountCircleIcon, Favorite as Favor
 import { useUser } from '../contextAPI/context';
 import { Link, useNavigate } from 'react-router-dom';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const Profile = () => {
   const [tabValue, setTabValue] = useState('details');
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -468,7 +470,7 @@ const Profile = () => {
     if (!email) return;
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8071/customer/profile/${email}`);
+        const response = await fetch(`${BACKEND_API_URL}/customer/profile/${email}`);
         if (!response.ok) throw new Error('Failed to fetch user details');
         const data = await response.json();
         setProfileDetails(data.customer);
@@ -484,7 +486,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('http://localhost:8071/item/menu-items');
+        const response = await fetch(`${BACKEND_API_URL}/item/menu-items`);
         if (!response.ok) throw new Error('Failed to fetch menu items');
         const data = await response.json();
         setMenuItems(data);
@@ -501,7 +503,7 @@ const Profile = () => {
 
   const handleSaveChanges = async () => {
     try {
-      const response = await fetch(`http://localhost:8071/profile/update/${email}`, {
+      const response = await fetch(`${BACKEND_API_URL}/profile/update/${email}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tempDetails),
@@ -515,7 +517,7 @@ const Profile = () => {
 
   const handleRemoveFromWishlist = async (itemId) => {
     try {
-      const response = await fetch(`http://localhost:8071/customer/remove-wishlist-item/${email}`, {
+      const response = await fetch(`${BACKEND_API_URL}/customer/remove-wishlist-item/${email}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ itemId }),

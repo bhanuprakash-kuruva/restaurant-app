@@ -10,6 +10,9 @@ import { Link,useNavigate } from 'react-router-dom';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import SetImg from '../assets/set.jpeg';
 import { useUser } from '../contextAPI/context';
+
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const CateringPage = () => {
   const navigate = useNavigate()
   const [backgroundImage, setBackgroundImage] = useState('');

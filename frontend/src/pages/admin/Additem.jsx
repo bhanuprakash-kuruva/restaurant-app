@@ -36,6 +36,8 @@ import {
 import { useUser } from '../../contextAPI/context';
 import { useNavigate } from 'react-router-dom';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const AddItem = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -68,12 +70,6 @@ const AddItem = () => {
     'Dessert',
     'Special'
   ];
-
-  useEffect(() => {
-    if (role !== 'ADMIN') {
-      navigate('/needaccess');
-    }
-  }, [role, navigate]);
 
   const steps = ['Basic Information', 'Pricing & Category', 'Description & Image'];
 
@@ -246,7 +242,7 @@ const AddItem = () => {
     newFormData.append('image', formData.image);
 
     try {
-      const response = await fetch('http://localhost:8071/admin/addItem', {
+      const response = await fetch(`${BACKEND_API_URL}/admin/addItem`, {
         method: 'POST',
         body: newFormData,
       });

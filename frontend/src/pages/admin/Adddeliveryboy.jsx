@@ -220,6 +220,8 @@ import {
 import { useUser } from '../../contextAPI/context';
 import { useNavigate } from 'react-router-dom';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const AddDeliveryBoy = () => {
   const [newDeliveryBoy, setNewDeliveryBoy] = useState({
     email: '',
@@ -243,11 +245,7 @@ const AddDeliveryBoy = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  useEffect(() => {
-    if (role !== 'ADMIN') {
-      navigate('/needaccess');
-    }
-  }, [role, navigate]);
+
 
   const steps = ['Personal Info', 'Contact Details', 'Work Information'];
 
@@ -436,7 +434,7 @@ const AddDeliveryBoy = () => {
     formData.append('imageURL', newDeliveryBoy.imageURL);
 
     try {
-      const response = await fetch('http://localhost:8071/deliveryboy/add', {
+      const response = await fetch(`${BACKEND_API_URL}/deliveryboy/add`, {
         method: 'POST',
         body: formData,
       });

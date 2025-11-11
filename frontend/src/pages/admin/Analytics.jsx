@@ -44,6 +44,8 @@ import {
 import { useUser } from '../../contextAPI/context';
 import { useNavigate } from 'react-router-dom';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const SalesAndItemsAnalysis = () => {
   const [orders, setOrders] = useState([]);
   const [salesData, setSalesData] = useState([]);
@@ -64,11 +66,6 @@ const SalesAndItemsAnalysis = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  useEffect(() => {
-    if (role !== 'ADMIN') {
-      navigate('/needaccess');
-    }
-  }, [role, navigate]);
 
   // Fetch data
   useEffect(() => {
@@ -77,9 +74,9 @@ const SalesAndItemsAnalysis = () => {
         setLoading(true);
         
         const [ordersRes, menuRes, ratingsRes] = await Promise.all([
-          fetch('http://localhost:8071/orders/deliveryboy/showorders'),
-          fetch('http://localhost:8071/item/menu-items'),
-          fetch('http://localhost:8071/reviews/showreviews')
+          fetch(`${BACKEND_API_URL}/orders/deliveryboy/showorders`),
+          fetch(`${BACKEND_API_URL}/item/menu-items`),
+          fetch(`${BACKEND_API_URL}/reviews/showreview`)
         ]);
 
         if (!ordersRes.ok || !menuRes.ok || !ratingsRes.ok) {

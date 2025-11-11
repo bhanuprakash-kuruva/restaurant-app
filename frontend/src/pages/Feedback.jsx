@@ -304,6 +304,8 @@ import {
 import { useUser } from '../contextAPI/context';
 import Layout from '../components/Layout/Layout';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const ReviewPage = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -351,7 +353,7 @@ const ReviewPage = () => {
       formData.append('image', file);
     }
 
-    fetch('http://localhost:8071/reviews', {
+    fetch(`${BACKEND_API_URL}/reviews`, {
       method: 'POST',
       body: formData
     })

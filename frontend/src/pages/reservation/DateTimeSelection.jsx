@@ -22,6 +22,8 @@ import {
   Chair
 } from '@mui/icons-material';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const DateTimeSelection = ({
   reservationData,
   onDataChange,
@@ -61,7 +63,7 @@ const DateTimeSelection = ({
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8071/api/reservations/availability', {
+      const response = await fetch(`${BACKEND_API_URL}/api/reservations/availability`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -4,6 +4,10 @@ import Layout from '../components/Layout/Layout';
 import { useUser } from '../contextAPI/context';
 import backImg from '../assets/signin.jpeg';
 import TapasIcon from '@mui/icons-material/Tapas';
+
+
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 export default function CateringForm() {
   const [formData, setFormData] = useState({
     eventName: '',
@@ -38,7 +42,7 @@ export default function CateringForm() {
 
     try {
       // Send POST request using fetch API
-      const response = await fetch(`http://localhost:8071/catering/${email}`, {
+      const response = await fetch(`${BACKEND_API_URL}/catering/${email}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Specify the content type as JSON

@@ -26,6 +26,9 @@ import GuestDetails from './GuestDetails';
 import Confirmation from './Confirmation';
 import { useNavigate } from 'react-router-dom';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
+
 const ReservationPage = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [reservationData, setReservationData] = useState({
@@ -70,7 +73,7 @@ const ReservationPage = () => {
 
   const handleReservationSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:8071/api/reservations', {
+      const response = await fetch(`${BACKEND_API_URL}/api/reservations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

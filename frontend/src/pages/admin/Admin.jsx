@@ -36,6 +36,8 @@ import AdminChefImg from '../../assets/adminchef.avif';
 import deliveryImg from '../../assets/delivery.avif';
 import { useUser } from '../../contextAPI/context';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 function AdminPage() {
   const [chefs, setChefs] = useState([]);
   const [items, setItems] = useState([]);
@@ -49,11 +51,6 @@ function AdminPage() {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  useEffect(() => {
-    if (role !== 'ADMIN') {
-      navigate('/needaccess');
-    }
-  }, [role, navigate]);
 
   useEffect(() => {
     setAnimate(true);
@@ -65,10 +62,10 @@ function AdminPage() {
         setLoading(true);
 
         const [chefsRes, itemsRes, deliveryRes, eventsRes] = await Promise.all([
-          fetch('http://localhost:8071/chef/showchefs'),
-          fetch('http://localhost:8071/item/menu-items'),
-          fetch('http://localhost:8071/deliveryboy/show'),
-          fetch('http://localhost:8071/catering/getEvents')
+          fetch(`${BACKEND_API_URL}/chef/showchefs`),
+          fetch(`${BACKEND_API_URL}/item/menu-items`),
+          fetch(`${BACKEND_API_URL}/deliveryboy/show`),
+          fetch(`${BACKEND_API_URL}/catering/getEvents`)
         ]);
 
         if (!chefsRes.ok) throw new Error('Failed to fetch chefs data');

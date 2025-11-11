@@ -84,6 +84,8 @@ const otpInputStyle = {
   },
 };
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -270,7 +272,7 @@ const Signup = () => {
   const completeSignup = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8071/customer/signup', {
+      const response = await fetch(`${BACKEND_API_URL}/customer/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formValues),

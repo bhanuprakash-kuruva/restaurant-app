@@ -29,7 +29,7 @@ import 'react-calendar/dist/Calendar.css';
 import Layout from '../components/Layout/Layout';
 import { useUser } from '../contextAPI/context';
 import { useNavigate } from 'react-router-dom';
-
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
 // Register Chart.js components
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
 
@@ -40,17 +40,13 @@ const EventAnalysis = () => {
   const { role } = useUser();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (role !== 'ADMIN') {
-      navigate('/needaccess');
-    }
-  }, [role, navigate]);
+
 
   // Fetch events data
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('http://localhost:8071/catering/getEvents');
+        const response = await fetch(`${BACKEND_API_URL}/catering/getEvents`);
         if (response.ok) {
           const data = await response.json();
           setEventsData(data.events || []);

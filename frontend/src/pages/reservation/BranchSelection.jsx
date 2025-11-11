@@ -26,6 +26,8 @@ import {
   Restaurant  // This was missing
 } from '@mui/icons-material';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const BranchSelection = ({ reservationData, onDataChange, onNext }) => {
   const [branches, setBranches] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,7 @@ const BranchSelection = ({ reservationData, onDataChange, onNext }) => {
 
   const fetchBranches = async () => {
     try {
-      const response = await fetch('http://localhost:8071/api/branches');
+      const response = await fetch(`${BACKEND_API_URL}/api/branches`);
       if (response.ok) {
         const data = await response.json();
         setBranches(data.data);

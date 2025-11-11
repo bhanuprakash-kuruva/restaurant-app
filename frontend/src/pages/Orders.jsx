@@ -16,6 +16,8 @@ import {
 import { useTheme } from '@mui/material/styles';
 import { useUser } from '../contextAPI/context';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const OrderPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [profileDetails, setProfileDetails] = useState(null);
@@ -30,7 +32,7 @@ const OrderPage = () => {
     if (!email) return;
     const fetchUserDetails = async () => {
       try {
-        const res = await fetch(`http://localhost:8071/customer/profile/${email}`);
+        const res = await fetch(`${BACKEND_API_URL}/customer/profile/${email}`);
         if (!res.ok) throw new Error('Failed to fetch user details');
         const data = await res.json();
         setProfileDetails(data.customer);
@@ -45,7 +47,7 @@ const OrderPage = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const res = await fetch('http://localhost:8071/item/menu-items');
+        const res = await fetch(`${BACKEND_API_URL}/item/menu-items`);
         if (!res.ok) throw new Error('Failed to fetch menu items');
         const data = await res.json();
         setMenuItems(data);

@@ -16,6 +16,8 @@ import OrderDialogs from './menu/OrderDialogs';
 // Import utility functions
 import { handleLike, handleDislike, handleCartClick, handleOrderSubmit } from './utils/menuUtils';
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const Menu = () => {
   const navigate = useNavigate();
   const [menuItems, setMenuItems] = useState([]);
@@ -34,7 +36,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('http://localhost:8071/item/menu-items');
+        const response = await fetch(`${BACKEND_API_URL}/item/menu-items`);
         if (response.ok) {
           const data = await response.json();
           setMenuItems(data);
@@ -214,11 +216,6 @@ const Menu = () => {
     navigate('/');
   };
 
-  useEffect(() => {
-    if (email === null) {
-      navigate('*');
-    }
-  }, [email, navigate]);
 
   return (
     <>

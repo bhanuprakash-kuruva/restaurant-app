@@ -194,6 +194,8 @@ const modalStyle = {
   overflowY: 'auto',
 };
 
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 const Chefs = () => {
   const {role} = useUser();
   const [chef, setChef] = useState([]);
@@ -211,7 +213,7 @@ const Chefs = () => {
   useEffect(() => {
     const fetchChefs = async () => {
       try {
-        const response = await fetch('http://localhost:8071/chef/showchefs');
+        const response = await fetch(`${BACKEND_API_URL}/chef/showchefs`);
         if (!response.ok) throw new Error('Failed to fetch chef details');
         const data = await response.json();
         setChef(data.chef);
@@ -278,7 +280,7 @@ const Chefs = () => {
     formData.append('image', newChef.image);
 
     try {
-      const response = await fetch('http://localhost:8071/chef/addchef', {
+      const response = await fetch(`${BACKEND_API_URL}/chef/addchef`, {
         method: 'POST',
         body: formData,
       });

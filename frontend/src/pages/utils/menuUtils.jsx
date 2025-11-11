@@ -1,7 +1,10 @@
 // Utility functions for menu operations
+
+const BACKEND_API_URL = import.meta.env.VITE_BASE_URL;
+
 export const handleLike = async (menuId, setLikes) => {
   try {
-    const response = await fetch(`http://localhost:8071/item/update-likes/${menuId}`, {
+    const response = await fetch(`${BACKEND_API_URL}/item/update-likes/${menuId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -24,7 +27,7 @@ export const handleLike = async (menuId, setLikes) => {
 
 export const handleDislike = async (menuId, setDislikes) => {
   try {
-    const response = await fetch(`http://localhost:8071/item/update-dislikes/${menuId}`, {
+    const response = await fetch(`${BACKEND_API_URL}/item/update-dislikes/${menuId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -47,7 +50,7 @@ export const handleDislike = async (menuId, setDislikes) => {
 
 export const handleCartClick = async (email, itemId) => {
   try {
-    const response = await fetch(`http://localhost:8071/customer/wishlist/${email}/${itemId}`, {
+    const response = await fetch(`${BACKEND_API_URL}/customer/wishlist/${email}/${itemId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -74,7 +77,7 @@ export const handleOrderSubmit = async (selectedItems, email, menuItems) => {
   }));
 
   try {
-    const response = await fetch('http://localhost:8071/orders', {
+    const response = await fetch(`${BACKEND_API_URL}/orders`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ items, customerName: email }),
