@@ -6,7 +6,6 @@ const router = express.Router()
 
 router.post('/:id',async(req,res)=>{
     const email = req.params.id
-    console.log(email)
     const { eventName, eventDate, numberOfGuests, dietaryPreferences, contactPerson,noOfDays, contactPhone, specialRequests, eventType } = req.body;
     try{
         const customer = await Customer.find({email:email})

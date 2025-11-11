@@ -1,10 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import Layout from '../components/Layout/Layout';
 
 const TermsAndConditions = () => {
   return (
-    <Layout>
+    
       <Box sx={{ p: 4, lineHeight: 1.8 }}>
       <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 3, textAlign: 'center' }}>
         Terms and Conditions
@@ -95,7 +94,7 @@ const TermsAndConditions = () => {
         </li>
       </ul>
     </Box>
-    </Layout>
+    
   );
 };
 

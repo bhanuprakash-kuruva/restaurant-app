@@ -25,7 +25,7 @@ const CateringPage = () => {
   }, []);
 
   return (
-    <Layout>
+    
       <Box sx={{ backgroundImage: backgroundImage, backgroundSize: 'cover', backgroundPosition: 'center',backdropFilter: 'blur(20px)' }}>
         <Container sx={{  px:2,py: 2, borderRadius: '10px',backdropFilter: 'blur(20px)' }}>
           {/* Hero Image Section */}
@@ -221,7 +221,7 @@ We take pride in our ability to cater to your unique preferences, offering flexi
           </Box>
         </Container>
       </Box>
-    </Layout>
+    
   );
 };
 

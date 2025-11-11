@@ -12,7 +12,7 @@
 //   };
 
 //   return (
-//     <Layout>
+//     
 //       <Container
 //         sx={{
 //           display: 'flex',
@@ -38,7 +38,7 @@
 //           Log In
 //         </Button>
 //       </Container>
-//     </Layout>
+//     
 //   );
 // };
 
@@ -46,7 +46,6 @@
 
 //mobile
 import React from 'react';
-import Layout from '../components/Layout/Layout';
 import { Box, Typography, Button, Container, useMediaQuery } from '@mui/material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useTheme } from '@mui/material/styles';
@@ -62,7 +61,7 @@ const Needaccess = () => {
   };
 
   return (
-    <Layout>
+    
       <Container
         sx={{
           display: 'flex',
@@ -108,7 +107,7 @@ const Needaccess = () => {
           Log In
         </Button>
       </Container>
-    </Layout>
+    
   );
 };
 

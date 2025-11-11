@@ -33,7 +33,7 @@
 //   useEffect(() => {
 //     const fetchChefs = async () => {
 //       try {
-//         const response = await fetch('https://restaurant-app-three-pied.vercel.app/chef/showchefs');
+//         const response = await fetch('http://localhost:8071/chef/showchefs');
 //         if (!response.ok) {
 //           throw new Error('Failed to fetch chef details');
 //         }
@@ -79,7 +79,7 @@
 //     formData.append('image', newChef.image);
 
 //     try {
-//       const response = await fetch('https://restaurant-app-three-pied.vercel.app/chef/addchef', {
+//       const response = await fetch('http://localhost:8071/chef/addchef', {
 //         method: 'POST',
 //         body: formData,
 //       });
@@ -106,7 +106,7 @@
 //   };
 
 //   return (
-//     <Layout>
+//     
 //       <Box sx={{ textAlign: 'center', py: 5, bgcolor: '#f7f7f7' }}>
 //         <Typography variant="h3" gutterBottom>
 //           Meet Our Chefs
@@ -153,7 +153,7 @@
 //           </Grid>
 //         ))}
 //       </Grid>
-//     </Layout>
+//     
 //   );
 // };
 
@@ -161,7 +161,7 @@
 
 
 //mobile
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Layout from '../components/Layout/Layout';
 import {
   Box,
@@ -178,6 +178,7 @@ import {
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import CloseIcon from '@mui/icons-material/Close';
+import { useUser } from '../contextAPI/context';
 
 const modalStyle = {
   position: 'absolute',
@@ -194,6 +195,7 @@ const modalStyle = {
 };
 
 const Chefs = () => {
+  const {role} = useUser();
   const [chef, setChef] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [newChef, setNewChef] = useState({
@@ -209,7 +211,7 @@ const Chefs = () => {
   useEffect(() => {
     const fetchChefs = async () => {
       try {
-        const response = await fetch('https://restaurant-app-three-pied.vercel.app/chef/showchefs');
+        const response = await fetch('http://localhost:8071/chef/showchefs');
         if (!response.ok) throw new Error('Failed to fetch chef details');
         const data = await response.json();
         setChef(data.chef);
@@ -276,7 +278,7 @@ const Chefs = () => {
     formData.append('image', newChef.image);
 
     try {
-      const response = await fetch('https://restaurant-app-three-pied.vercel.app/chef/addchef', {
+      const response = await fetch('http://localhost:8071/chef/addchef', {
         method: 'POST',
         body: formData,
       });
@@ -301,7 +303,7 @@ const Chefs = () => {
   };
 
   return (
-    <Layout>
+    <>
       <Box sx={{ textAlign: 'center', py: 5, bgcolor: '#f7f7f7' }}>
         <Typography variant="h3" gutterBottom>
           Meet Our Chefs
@@ -309,7 +311,9 @@ const Chefs = () => {
         <Typography variant="subtitle1" color="textSecondary" gutterBottom>
           Our talented chefs bring the best of culinary artistry to your table.
         </Typography>
-        <Button
+        {
+          role === 'ADMIN' && (
+            <Button
           variant="contained"
           color="primary"
           onClick={() => setOpenModal(true)}
@@ -317,6 +321,8 @@ const Chefs = () => {
         >
           Add New Chef
         </Button>
+          )
+        }
       </Box>
 
       <Grid container spacing={4} sx={{ p: 4 }}>
@@ -446,7 +452,7 @@ const Chefs = () => {
           </Button>
         </Box>
       </Modal>
-    </Layout>
+    </>
   );
 };
 

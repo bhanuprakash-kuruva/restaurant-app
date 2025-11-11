@@ -38,7 +38,7 @@ export default function CateringForm() {
 
     try {
       // Send POST request using fetch API
-      const response = await fetch(`https://restaurant-app-three-pied.vercel.app/catering/${email}`, {
+      const response = await fetch(`http://localhost:8071/catering/${email}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Specify the content type as JSON
@@ -50,8 +50,6 @@ export default function CateringForm() {
       const data = await response.json();
 
       if (response.ok) {
-        // If the request was successful, log the response or show a success message
-        console.log('Form submitted successfully:', data);
         setFormData({
           eventName: '',
           eventDate: '',
@@ -82,7 +80,7 @@ export default function CateringForm() {
   };
 
   return (
-    <Layout>
+    <>
       <Box sx={{ backgroundImage: `url(${backImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <form onSubmit={handleSubmit}>
           <Box sx={{ maxWidth: '800px', margin: 'auto', padding: 3, backdropFilter: 'blur(20px)' }}>
@@ -293,7 +291,7 @@ export default function CateringForm() {
           </Button>
         </DialogActions>
       </Dialog>
-
-    </Layout>
+</>
+    
   );
 }

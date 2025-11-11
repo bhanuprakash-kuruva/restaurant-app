@@ -1,14 +1,19 @@
-import React from 'react'
-import Header from './Header' 
-import Footer  from './Footer'
-const Layout = ({children}) => {
+import React from 'react';
+import Header from './Header';
+import Footer from './Footer';
+import { Outlet } from 'react-router-dom';
+
+const Layout = () => {
   return (
     <>
-      <Header/>
-      <div>{children}</div>
-      <Footer/>
+      <Header />
+      <main style={{ minHeight: '80vh' }}>
+        <Outlet />  {/* 👈 This is where all child routes will render */}
+      </main>
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
+

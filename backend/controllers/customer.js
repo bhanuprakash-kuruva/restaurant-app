@@ -1,14 +1,11 @@
 const Customer = require('../models/customer');
-const bcrypt = require('bcrypt');  // You might want to hash passwords before saving
+const bcrypt = require('bcrypt');  
 const { ObjectId } = require('mongoose').Types;
 
 
 async function createCustomer(req, res) {
     const { firstName, lastName, email, password, age, mobileNumber, address, pincode } = req.body;
-    console.log(firstName);
-    console.log(email)
-    console.log(password)
-    // Validate the required fields
+
     if (!email || !password) {
         return res.status(400).json({ message: 'Email and password are required.' });
     }
@@ -56,10 +53,9 @@ async function createCustomer(req, res) {
         res.status(500).json({ message: 'Error creating customer', error: error.message });
     }
 }
-// Function to show all customers
+
 async function showCustomer(req, res) {
-    const email = req.params.id; // Use the correct query parameter for the email
-    console.log("Fetching customer with email:", email);
+    const email = req.params.id; 
 
     try {
         // Fetch the customer from the database using the email
@@ -79,13 +75,11 @@ async function showCustomer(req, res) {
 
 async function updateProfile(req, res) {
     const email = req.params.id;
-    console.log(email)
     const { firstName, lastName, age, mobileNumber, address, pincode } = req.body;
-    console.log('update customer')
-    // Find the user by email and update their details in the database
+
     try {
         const user = await Customer.findOne({ email: email }); // Assume User is a Mongoose model
-        console.log(user)
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -108,89 +102,8 @@ async function updateProfile(req, res) {
     }
 }
 
-
-
-
-
-// async function validateCustomer(req, res) {
-//     const { email, password,user } = req.body;
-//     console.log(email, password,user);
-//     const r = user
-//     try {
-//         // Find the user by email
-//         const user = await Customer.findOne({ email });
-
-//         if (!user) {
-//             // If no user found with the provided email
-//             return res.status(404).json({ message: 'User not found' });
-//         }
-//         console.log(user)
-//         // Compare the provided password with the hashed password in the database
-//         const isPasswordMatch = await bcrypt.compare(password, user.password);
-//         console.log(isPasswordMatch)
-//         const hashedPassword = await bcrypt.hash(password, 10);
-//         console.log(hashedPassword)
-//         console.log(user.password)
-//         if (isPasswordMatch) {
-//             // If passwords match
-//             console.log('Password match result:', isPasswordMatch);
-//             if(password===process.env.ADMIN_SECRET && r ==='ADMIN'){
-//                 return res.status(200).json({ message: 'User found',role: "ADMIN" });
-//             }
-//             else if(password===process.env.DELIVERY_SECRET && r==='DELIVERY BOY'){
-//                 return res.status(200).json({ message: 'User found',role: "DELIVERY BOY" });
-//             }
-//             else{
-//                 return res.status(200).json({ message: 'User found',role: "CUSTOMER" });
-//             }
-//         } else {
-//             // If passwords do not match
-//             return res.status(401).json({ message: 'Invalid password' });
-//         }
-
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({ message: 'Server error' });
-//     }
-// }
-// async function validateCustomer(req, res) {
-//     const { email, password, userRole } = req.body; // renamed user to userRole for clarity
-//     console.log(email, password, userRole);
-
-//     try {
-//         // Find the user by email
-//         const user = await Customer.findOne({ email:email });
-//         console.log(user)
-//         if (!user) {
-//             return res.status(404).json({ message: 'User not found' });
-//         }
-//         console.log(user);
-
-//         // Compare the provided password with the hashed password in DB
-//         const isPasswordMatch = await bcrypt.compare(password, user.password);
-//         console.log('Password match:', isPasswordMatch);
-
-//         if (!isPasswordMatch) {
-//             return res.status(401).json({ message: 'Invalid password' });
-//         }
-
-//         // Password matches, now check role with possible secret keys
-//         if (password === process.env.ADMIN_SECRET && userRole === 'ADMIN') {
-//             return res.status(200).json({ message: 'User found', role: 'ADMIN' });
-//         } else if (password === process.env.DELIVERY_SECRET && userRole === 'DELIVERYBOY') {
-//             return res.status(200).json({ message: 'User found', role: 'DELIVERYBOY' });
-//         } else {
-//             // Default to CUSTOMER role (or the role stored on user document)
-//             return res.status(200).json({ message: 'User found', role: user.role || 'CUSTOMER' });
-//         }
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({ message: 'Server error' });
-//     }
-// }
 async function validateCustomer(req, res) {
     const { email, password, userRole } = req.body;
-    console.log(email, password, userRole);
 
     try {
         // First: handle special role logins without DB password
@@ -225,8 +138,6 @@ async function validateCustomer(req, res) {
     }
 }
 
-
-
 async function addToWishlist(req, res) {
     const email = req.params.id1
     const itemId = req.params.id2
@@ -256,7 +167,7 @@ async function addToWishlist(req, res) {
 async function removeFromWishlist(req,res){
     const email = req.params.id
     const {itemId} = req.body
-    console.log(itemId)
+
     try{
         const customer = await Customer.findOne({email:email}).populate('wishList')
         if(!customer){
@@ -266,7 +177,6 @@ async function removeFromWishlist(req,res){
         customer.wishList=  customer.wishList.filter((item)=> item._id.toString()!==itemId)
         
         await customer.save()
-        // console.log(customer)
         return res.status(200).json({ message: 'Item removed from wishlist' });
     }catch (error) {
         console.error(error);

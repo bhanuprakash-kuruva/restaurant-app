@@ -4,7 +4,7 @@ const Item = require('../models/item')
 const router = express.Router()
 
 router.get('/menu-items', async (req, res) => {
-    console.log('hi')
+
     try {
         const menuItems = await Item.find()
         res.json(menuItems)
@@ -15,10 +15,10 @@ router.get('/menu-items', async (req, res) => {
 
 router.post('/update-likes/:id', async (req, res) => {
     const itemId = req.params.id
-    // console.log(itemId)
+
     try {
         const item = await Item.findOne({_id:itemId})
-        // console.log(item)
+
         if (!item) {
             res.status(404).json({ message: 'Item not found' })
         }

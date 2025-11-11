@@ -1,13 +1,35 @@
-
 import React, { useState, useEffect } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement } from 'chart.js';
-import { Container, Grid, Typography, Card, CardContent, CardActions, Button, Box, List, ListItem, ListItemText } from '@mui/material';
-import Calendar from 'react-calendar'; // Import react-calendar
-import 'react-calendar/dist/Calendar.css'; // Import the calendar's styles
+import { 
+  Container, 
+  Grid, 
+  Typography, 
+  Card, 
+  CardContent, 
+  Box, 
+  List, 
+  ListItem, 
+  ListItemText,
+  Paper,
+  Chip,
+  Alert,
+  CircularProgress
+} from '@mui/material';
+import { 
+  Event as EventIcon,
+  CalendarToday,
+  CheckCircle,
+  Schedule,
+  Analytics,
+  Palette
+} from '@mui/icons-material';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import Layout from '../components/Layout/Layout';
 import { useUser } from '../contextAPI/context';
 import { useNavigate } from 'react-router-dom';
+
 // Register Chart.js components
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
 
@@ -15,27 +37,29 @@ const EventAnalysis = () => {
   const [eventsData, setEventsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const {role} =useUser()
-  const navigate = useNavigate()
-  useEffect(()=>{
-    if(role !=='ADMIN'){
-      navigate('/needaccess')
+  const { role } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (role !== 'ADMIN') {
+      navigate('/needaccess');
     }
-  },[])
+  }, [role, navigate]);
+
   // Fetch events data
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('https://restaurant-app-three-pied.vercel.app/catering/getEvents');
+        const response = await fetch('http://localhost:8071/catering/getEvents');
         if (response.ok) {
           const data = await response.json();
-          setEventsData(data.events);
+          setEventsData(data.events || []);
         } else {
           const error = await response.json();
-          alert("Error occurred", error.message);
+          console.error("Error occurred", error.message);
         }
       } catch (err) {
-        console.log(err);
+        console.error("Fetch error:", err);
       } finally {
         setLoading(false);
       }
@@ -44,13 +68,23 @@ const EventAnalysis = () => {
   }, []);
 
   if (loading) {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+        <CircularProgress size={60} />
+      </Box>
+    );
   }
 
   if (eventsData.length === 0) {
-    return <Typography>No events data available</Typography>;
+    return (
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Alert severity="info" sx={{ mb: 3 }}>
+          No events data available for analysis
+        </Alert>
+      </Container>
+    );
   }
-  
+
   // Get current date for comparison
   const currentDate = new Date();
 
@@ -64,13 +98,31 @@ const EventAnalysis = () => {
     return acc;
   }, {});
 
-  // Generate colors dynamically for each event type
+  // Professional color palette
   const getColor = (index) => {
-    const colors = ['#4CAF50', '#FF9800', '#2196F3', '#9C27B0', '#E91E63'];
+    const colors = [
+      '#4361ee', '#3a0ca3', '#7209b7', '#f72585', '#4cc9f0',
+      '#4895ef', '#560bad', '#b5179e', '#f15bb5', '#00bbf9'
+    ];
     return colors[index % colors.length];
   };
 
-  // Bar chart data (Event Types by Count)
+  // Chart options for consistent styling
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          padding: 20,
+          usePointStyle: true,
+        }
+      }
+    }
+  };
+
+  // Bar chart data
   const barChartData = {
     labels: Object.keys(eventTypeCount),
     datasets: [
@@ -79,148 +131,274 @@ const EventAnalysis = () => {
         data: Object.values(eventTypeCount),
         backgroundColor: Object.keys(eventTypeCount).map((_, index) => getColor(index)),
         borderColor: Object.keys(eventTypeCount).map((_, index) => getColor(index)),
-        borderWidth: 1,
+        borderWidth: 2,
+        borderRadius: 4,
       },
     ],
   };
 
-  // Pie chart data (Event Type Distribution)
+  // Pie chart data
   const pieChartData = {
     labels: Object.keys(eventTypeCount),
     datasets: [
       {
         data: Object.values(eventTypeCount),
         backgroundColor: Object.keys(eventTypeCount).map((_, index) => getColor(index)),
+        borderColor: '#fff',
+        borderWidth: 2,
       },
     ],
   };
 
-  // Extract booked dates from event data
+  // Extract booked dates
   const bookedDates = eventsData.map(event => {
     const eventDate = new Date(event.eventDate);
-    if (eventDate.getTime()) {
-      return eventDate.toISOString().split('T')[0]; // Return ISO string formatted date
-    }
-    return null;
+    return eventDate.getTime() ? eventDate.toISOString().split('T')[0] : null;
   }).filter(date => date !== null);
 
-  // Handler for calendar date selection
+  // Handle date change
   const handleDateChange = date => {
     setSelectedDate(date);
   };
 
-  // Helper function to render event details
-  const renderEventDetails = (event) => {
-    return (
-      <Card key={event._id} sx={{ marginBottom: 2 }}>
-        <CardContent>
-          <Typography variant="h6">{event.eventName}</Typography>
-          <Typography variant="body2" color="text.secondary">
-            Date: {new Date(event.eventDate).toLocaleDateString()}
+  // Event card component
+  const EventCard = ({ event, isCompleted }) => (
+    <Card 
+      sx={{ 
+        mb: 2, 
+        borderLeft: `4px solid ${isCompleted ? '#4caf50' : '#ff9800'}`,
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        '&:hover': {
+          transform: 'translateY(-2px)',
+          boxShadow: 3
+        }
+      }}
+    >
+      <CardContent>
+        <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={1}>
+          <Typography variant="h6" fontWeight="600">
+            {event.eventName}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Event Type: {event.eventType}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Number of Guests: {event.numberOfGuests}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Number of Days: {event.noOfDays}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Status: {new Date(event.eventDate) < currentDate ? 'Completed' : 'Not yet completed'}
-          </Typography>
-        </CardContent>
-        {/* <CardActions>
-          <Button size="small" color="primary">View Details</Button>
-        </CardActions> */}
-      </Card>
-    );
-  };
+          <Chip 
+            icon={isCompleted ? <CheckCircle /> : <Schedule />}
+            label={isCompleted ? 'Completed' : 'Upcoming'}
+            color={isCompleted ? 'success' : 'warning'}
+            size="small"
+          />
+        </Box>
+        
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <Typography variant="body2" color="text.secondary" display="flex" alignItems="center" gap={0.5}>
+              <CalendarToday fontSize="small" />
+              {new Date(event.eventDate).toLocaleDateString()}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Type:</strong> {event.eventType}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Guests:</strong> {event.numberOfGuests}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Days:</strong> {event.noOfDays}
+            </Typography>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
 
-  // Function to generate a legend with color codes
-  const renderColorLegend = () => {
-    return (
-      <List>
+  // Color legend component
+  const ColorLegend = () => (
+    <Paper sx={{ p: 2 }}>
+      <Typography variant="h6" gutterBottom display="flex" alignItems="center" gap={1}>
+        <Palette />
+        Event Type Legend
+      </Typography>
+      <List dense>
         {Object.keys(eventTypeCount).map((eventType, index) => (
-          <ListItem key={eventType} sx={{ display: 'flex', alignItems: 'center' }}>
+          <ListItem key={eventType} sx={{ px: 1 }}>
             <Box
               sx={{
-                width: 20,
-                height: 20,
+                width: 16,
+                height: 16,
                 backgroundColor: getColor(index),
-                marginRight: 2,
+                borderRadius: 1,
+                mr: 2,
+                flexShrink: 0
               }}
             />
-            <ListItemText primary={`${eventType}`} secondary={`Color: ${getColor(index)}`} />
+            <ListItemText 
+              primary={eventType} 
+              secondary={`${eventTypeCount[eventType]} event(s)`}
+            />
           </ListItem>
         ))}
       </List>
-    );
-  };
+    </Paper>
+  );
 
   return (
-    <Layout>
-        <Container>
-      <Typography variant="h4" sx={{textAlign:'center',fontWeight:'bold',my:2}} gutterBottom>
-        Catering Event Analysis
-      </Typography>
-      <Grid container spacing={3}>
-        {/* Bar chart: Number of Events by Type */}
-        <Grid item xs={12} sm={6} sx={{ height: '300px' }}>
-          <Typography variant="h6" sx={{fontWeight:'bold'}}>Number of Events by Type</Typography>
-          <Bar data={barChartData} options={{ responsive: true, maintainAspectRatio: false }} height={300} />
-        </Grid>
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      {/* Header */}
+      <Box textAlign="center" mb={4}>
+        <Typography 
+          variant="h4" 
+          fontWeight="700" 
+          color="primary.main"
+          gutterBottom
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap={2}
+        >
+          <Analytics fontSize="large" />
+          Catering Event Analytics Dashboard
+        </Typography>
+        <Typography variant="h6" color="text.secondary">
+          Comprehensive analysis and insights for catering events management
+        </Typography>
+      </Box>
 
-        {/* Pie chart: Event Type Distribution */}
-        <Grid item xs={12} sm={6} sx={{ height: '300px' }}>
-          <Typography variant="h6" sx={{fontWeight:'bold'}}>Event Type Distribution</Typography>
-          <Pie data={pieChartData} options={{ responsive: true, maintainAspectRatio: false }} height={300} />
+      {/* Stats Overview */}
+      <Grid container spacing={2} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={4}>
+          <Paper sx={{ p: 3, textAlign: 'center', bgcolor: 'primary.main', color: 'white' }}>
+            <EventIcon sx={{ fontSize: 40, mb: 1 }} />
+            <Typography variant="h4" fontWeight="700">{eventsData.length}</Typography>
+            <Typography variant="h6">Total Events</Typography>
+          </Paper>
         </Grid>
-
-        {/* Calendar to highlight booked dates */}
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" sx={{fontWeight:'bold'}}>Calendar</Typography>
-          <Calendar
-            onChange={handleDateChange}
-            value={selectedDate}
-            tileClassName={({ date, view }) => {
-              if (view === 'month' && bookedDates.includes(date.toISOString().split('T')[0])) {
-                return 'highlighted';
-              }
-              return '';
-            }}
-          />
+        <Grid item xs={12} sm={4}>
+          <Paper sx={{ p: 3, textAlign: 'center', bgcolor: 'success.main', color: 'white' }}>
+            <CheckCircle sx={{ fontSize: 40, mb: 1 }} />
+            <Typography variant="h4" fontWeight="700">{completedEvents.length}</Typography>
+            <Typography variant="h6">Completed</Typography>
+          </Paper>
         </Grid>
-
-        {/* Color Code Legend */}
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom>Event Type Color Codes</Typography>
-          {renderColorLegend()}
-        </Grid>
-
-        {/* Not Yet Completed Events Section */}
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h5" sx={{fontWeight:'bold'}} gutterBottom>Not Yet Completed Events</Typography>
-          {notCompletedEvents.length > 0 ? (
-            notCompletedEvents.map(event => renderEventDetails(event))
-          ) : (
-            <Typography>No upcoming events</Typography>
-          )}
-        </Grid>
-
-        {/* Completed Events Section */}
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h5" sx={{fontWeight:'bold'}} gutterBottom>Completed Events</Typography>
-          {completedEvents.length > 0 ? (
-            completedEvents.map(event => renderEventDetails(event))
-          ) : (
-            <Typography>No completed events found</Typography>
-          )}
+        <Grid item xs={12} sm={4}>
+          <Paper sx={{ p: 3, textAlign: 'center', bgcolor: 'warning.main', color: 'white' }}>
+            <Schedule sx={{ fontSize: 40, mb: 1 }} />
+            <Typography variant="h4" fontWeight="700">{notCompletedEvents.length}</Typography>
+            <Typography variant="h6">Upcoming</Typography>
+          </Paper>
         </Grid>
       </Grid>
+
+      <Grid container spacing={3}>
+        {/* Charts Section */}
+        <Grid item xs={12} lg={8}>
+          <Grid container spacing={3}>
+            {/* Bar Chart */}
+            <Grid item xs={12} md={6}>
+              <Paper sx={{ p: 2, height: '400px' }}>
+                <Typography variant="h6" fontWeight="600" gutterBottom>
+                  Events by Type
+                </Typography>
+                <Bar data={barChartData} options={chartOptions} height={300} />
+              </Paper>
+            </Grid>
+
+            {/* Pie Chart */}
+            <Grid item xs={12} md={6}>
+              <Paper sx={{ p: 2, height: '400px' }}>
+                <Typography variant="h6" fontWeight="600" gutterBottom>
+                  Event Distribution
+                </Typography>
+                <Pie data={pieChartData} options={chartOptions} height={300} />
+              </Paper>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/* Calendar and Legend Section */}
+        <Grid item xs={12} lg={4}>
+          <Grid container spacing={3}>
+            {/* Calendar */}
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2 }}>
+                <Typography variant="h6" fontWeight="600" gutterBottom display="flex" alignItems="center" gap={1}>
+                  <CalendarToday />
+                  Event Calendar
+                </Typography>
+                <Calendar
+                  onChange={handleDateChange}
+                  value={selectedDate}
+                  tileClassName={({ date, view }) => {
+                    if (view === 'month' && bookedDates.includes(date.toISOString().split('T')[0])) {
+                      return 'highlighted';
+                    }
+                    return '';
+                  }}
+                />
+              </Paper>
+            </Grid>
+
+            {/* Legend */}
+            <Grid item xs={12}>
+              <ColorLegend />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/* Events Lists */}
+        <Grid item xs={12} lg={6}>
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h5" fontWeight="600" gutterBottom display="flex" alignItems="center" gap={1}>
+              <Schedule color="warning" />
+              Upcoming Events ({notCompletedEvents.length})
+            </Typography>
+            {notCompletedEvents.length > 0 ? (
+              notCompletedEvents.map(event => (
+                <EventCard key={event._id} event={event} isCompleted={false} />
+              ))
+            ) : (
+              <Alert severity="info">No upcoming events scheduled</Alert>
+            )}
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12} lg={6}>
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h5" fontWeight="600" gutterBottom display="flex" alignItems="center" gap={1}>
+              <CheckCircle color="success" />
+              Completed Events ({completedEvents.length})
+            </Typography>
+            {completedEvents.length > 0 ? (
+              completedEvents.map(event => (
+                <EventCard key={event._id} event={event} isCompleted={true} />
+              ))
+            ) : (
+              <Alert severity="info">No completed events found</Alert>
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+
+      {/* Custom CSS for calendar highlights */}
+      <style>
+        {`
+          .highlighted {
+            background-color: #4361ee !important;
+            color: white !important;
+            border-radius: 50%;
+          }
+          .react-calendar {
+            border: none;
+            width: 100%;
+          }
+          .react-calendar__tile--active {
+            background: #3a0ca3;
+          }
+        `}
+      </style>
     </Container>
-    </Layout>
   );
 };
 

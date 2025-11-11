@@ -42,7 +42,7 @@
 //       formData.append('image', file);
 //     }
 
-//     fetch('https://restaurant-app-three-pied.vercel.app/reviews', {
+//     fetch('http://localhost:8071/reviews', {
 //       method: 'POST',
 //       body: formData,
 //     })
@@ -84,7 +84,7 @@
 //   };
 
 //   return (
-//     <Layout>
+//     
 //       <Container maxWidth="sm">
 //         <Box sx={{ my: 4, padding: 3, backgroundColor: '#f5f5f5', borderRadius: 2 }}>
 //           <Typography variant="h4" gutterBottom sx={{ color: '#3f51b5', fontWeight: 'bold' }}>
@@ -269,7 +269,7 @@
 //           </Dialog>
 //         </Box>
 //       </Container>
-//     </Layout>
+//     
 //   );
 // };
 
@@ -351,7 +351,7 @@ const ReviewPage = () => {
       formData.append('image', file);
     }
 
-    fetch('https://restaurant-app-three-pied.vercel.app/reviews', {
+    fetch('http://localhost:8071/reviews', {
       method: 'POST',
       body: formData
     })
@@ -424,7 +424,7 @@ const ReviewPage = () => {
   );
 
   return (
-    <Layout>
+    
       <Container maxWidth="sm" sx={{ px: isMobile ? 2 : 4 }}>
         <Box
           sx={{
@@ -582,7 +582,7 @@ const ReviewPage = () => {
           </Dialog>
         </Box>
       </Container>
-    </Layout>
+    
   );
 };
 

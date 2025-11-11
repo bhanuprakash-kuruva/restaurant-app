@@ -1,163 +1,3 @@
-
-// import React, { useState, useEffect } from 'react';
-// import { Box, Typography, List, ListItem, ListItemText, Divider, Stepper, Step, StepLabel } from '@mui/material';
-// import { useUser } from '../contextAPI/context';
-// import Layout from '../components/Layout/Layout';
-
-// const OrderPage = () => {
-//   const [orders, setOrders] = useState([]);
-//   const [menuItems, setMenuItems] = useState([]);
-//   const [profileDetails, setProfileDetails] = useState(null);
-//   const { email, logout } = useUser();
-  
-//   const e = email;
-
-//   // Fetch orders for the user
-//   useEffect(() => {
-//     const fetchOrders = async () => {
-//       try {
-//         const response = await fetch(`https://restaurant-app-three-pied.vercel.app/orders/${email}`);
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch orders');
-//         }
-//         const data = await response.json();
-//         setOrders(data.order); // Assuming the orders are inside the "order" key
-//       } catch (error) {
-//         console.error('Error fetching orders:', error);
-//       }
-//     };
-
-//     if (email) {
-//       fetchOrders();
-//     }
-//   }, [email]);  // Trigger fetch when email changes
-
-//   // Fetch menu items
-//   useEffect(() => {
-//     const fetchMenuItems = async () => {
-//       try {
-//         const response = await fetch('https://restaurant-app-three-pied.vercel.app/item/menu-items'); // API endpoint for menu items
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch menu items');
-//         }
-//         const data = await response.json();
-//         setMenuItems(data);  // Set menu items data
-//       } catch (err) {
-//         console.error('Error fetching menu items:', err);
-//       }
-//     };
-
-//     fetchMenuItems();
-//   }, []);  // Fetch once on component mount
-
-//   // Fetch user details
-//   useEffect(() => {
-//     if (email) {
-//       const fetchUserDetails = async () => {
-//         try {
-//           const response = await fetch(`https://restaurant-app-three-pied.vercel.app/customer/profile/${email}`);
-//           if (!response.ok) {
-//             throw new Error('Failed to fetch user details');
-//           }
-//           const data = await response.json();
-//           setProfileDetails(data.customer);  // Store profile data
-//         } catch (error) {
-//           console.error('Error fetching user details:', error);
-//         }
-//       };
-
-//       fetchUserDetails();
-//     }
-//   }, [email]); // Fetch when email changes
-
-//   // Helper function to get the step index for the order status
-//   const getOrderStatusStep = (status) => {
-//     switch (status) {
-//       case 'ordered':
-//         return 0;
-//       case 'pending':
-//         return 1;
-//       case 'delivered':
-//       case 'cancelled': // Handle delivered and cancelled as final steps
-//         return 2;
-//       default:
-//         return 0;
-//     }
-//   };
-
-//   // Get the details (name and price) for a menu item
-//   const getMenuItemDetails = (menuId) => {
-//     const item = menuItems.find(item => item._id === menuId);
-//     return item ? { name: item.name, price: item.price } : { name: 'Unknown Item', price: '0.00' };
-//   };
-
-//   return (
-//     <Layout>
-//       <Box sx={{ textAlign: 'left', width: '100%', p: 3 }}>
-//         <Typography variant="h4" gutterBottom>Orders History</Typography>
-
-//         {/* Check if profileDetails and orders exist */}
-//         {profileDetails && profileDetails.orders && profileDetails.orders.length > 0 ? (
-//           <List>
-//             {/* Loop through all orders */}
-//             {profileDetails.orders.map((order, index) => (
-//               <div key={index}>
-//                 <Typography variant="h6" sx={{ mt: 2 }}>
-//                   Order ID: {order._id} - Status: {order.status === 'completed' ? 'Delivered' : order.status}
-//                 </Typography>
-
-//                 {/* Stepper for showing order status */}
-//                 <Stepper activeStep={getOrderStatusStep(order.status)} alternativeLabel>
-//                   {['Ordered', 'Shipped', 'Delivered'].map((status, i) => (
-//                     <Step key={i}>
-//                       <StepLabel>{status}</StepLabel>
-//                     </Step>
-//                   ))}
-//                 </Stepper>
-//                   <Typography variant="body1" sx={{ mt: 1 }}>
-//                     Total amount: ₹{order.totalAmount}
-//                   </Typography>
-//                   <Typography variant="body1" sx={{ mt: 1 }}>
-//                     Order placed at: {order.createdAt}
-//                   </Typography>
-//                 {/* Display the items in the order */}
-//                 {order.items && order.items.length > 0 ? (
-//                   order.items.map((item, i) => {
-//                     const { name, price } = getMenuItemDetails(item.menuId); // Get name and price
-//                     return (
-//                       <ListItem key={i}>
-//                         <ListItemText
-//                           primary={name}  // Display item name
-//                           secondary={`Price: ₹${price}`}  // Display item price
-//                         />
-//                         <ListItemText
-//                           secondary={`Quantity: ${item.quantity}`}  // Display item quantity
-//                         />
-//                       </ListItem>
-//                     );
-//                   })
-//                 ) : (
-//                   <Typography variant="body2" sx={{ mt: 1 }}>
-//                     No items in this order
-//                   </Typography>
-//                 )}
-
-//                 <Divider sx={{ mt: 2 }} />
-//               </div>
-//             ))}
-//           </List>
-//         ) : (
-//           <Typography>No orders available.</Typography>
-//         )}
-//       </Box>
-//     </Layout>
-//   );
-// };
-
-// export default OrderPage;
-
-
-//mobile
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -169,164 +9,112 @@ import {
   Stepper,
   Step,
   StepLabel,
+  Paper,
+  Stack,
   useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useUser } from '../contextAPI/context';
-import Layout from '../components/Layout/Layout';
 
 const OrderPage = () => {
-  const [orders, setOrders] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [profileDetails, setProfileDetails] = useState(null);
   const { email } = useUser();
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const orderStatuses = ['Ordered', 'Shipped', 'Delivered'];
 
-  // Fetch orders for the user
+  // Fetch user profile including orders
   useEffect(() => {
-    const fetchOrders = async () => {
+    if (!email) return;
+    const fetchUserDetails = async () => {
       try {
-        const response = await fetch(`https://restaurant-app-three-pied.vercel.app/orders/${email}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch orders');
-        }
-        const data = await response.json();
-        setOrders(data.order);
-      } catch (error) {
-        console.error('Error fetching orders:', error);
+        const res = await fetch(`http://localhost:8071/customer/profile/${email}`);
+        if (!res.ok) throw new Error('Failed to fetch user details');
+        const data = await res.json();
+        setProfileDetails(data.customer);
+      } catch (err) {
+        console.error(err);
       }
     };
-
-    if (email) {
-      fetchOrders();
-    }
+    fetchUserDetails();
   }, [email]);
 
   // Fetch menu items
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('https://restaurant-app-three-pied.vercel.app/item/menu-items');
-        if (!response.ok) {
-          throw new Error('Failed to fetch menu items');
-        }
-        const data = await response.json();
+        const res = await fetch('http://localhost:8071/item/menu-items');
+        if (!res.ok) throw new Error('Failed to fetch menu items');
+        const data = await res.json();
         setMenuItems(data);
       } catch (err) {
-        console.error('Error fetching menu items:', err);
+        console.error(err);
       }
     };
-
     fetchMenuItems();
   }, []);
 
-  // Fetch user details
-  useEffect(() => {
-    if (email) {
-      const fetchUserDetails = async () => {
-        try {
-          const response = await fetch(`https://restaurant-app-three-pied.vercel.app/customer/profile/${email}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch user details');
-          }
-          const data = await response.json();
-          setProfileDetails(data.customer);
-        } catch (error) {
-          console.error('Error fetching user details:', error);
-        }
-      };
-
-      fetchUserDetails();
-    }
-  }, [email]);
-
   const getOrderStatusStep = (status) => {
     switch (status) {
-      case 'ordered':
-        return 0;
-      case 'pending':
-        return 1;
-      case 'delivered':
-      case 'cancelled':
-        return 2;
-      default:
-        return 0;
+      case 'ordered': return 0;
+      case 'pending': return 1;
+      case 'delivered': case 'cancelled': return 2;
+      default: return 0;
     }
   };
 
   const getMenuItemDetails = (menuId) => {
-    const item = menuItems.find((item) => item._id === menuId);
-    return item ? { name: item.name, price: item.price } : { name: 'Unknown Item', price: '0.00' };
+    const item = menuItems.find(i => i._id === menuId);
+    return item ? { name: item.name, price: item.price } : { name: 'Unknown', price: '0.00' };
   };
 
+  if (!profileDetails) return <Typography textAlign="center" mt={5}>Loading orders...</Typography>;
+
   return (
-    <Layout>
-      <Box
-        sx={{
-          textAlign: 'left',
-          width: '100%',
-          p: isSmallScreen ? 2 : 3,
-          maxWidth: 900,
-          mx: 'auto',
-        }}
-      >
-        <Typography
-          variant={isSmallScreen ? 'h5' : 'h4'}
-          gutterBottom
-          sx={{ fontWeight: 'bold', textAlign: isSmallScreen ? 'center' : 'left' }}
-        >
-          Orders History
-        </Typography>
+    <Box sx={{ maxWidth: 900, mx: 'auto', px: 2, py: 4 }}>
+      <Typography variant={isSmallScreen ? 'h5' : 'h4'} fontWeight="bold" textAlign="center" mb={4}>
+        Orders History
+      </Typography>
 
-        {profileDetails && profileDetails.orders && profileDetails.orders.length > 0 ? (
-          <List>
-            {profileDetails.orders.map((order, index) => (
-              <Box key={index} sx={{ mb: 4 }}>
-                <Typography
-                  variant={isSmallScreen ? 'subtitle1' : 'h6'}
-                  sx={{ mt: 2, textAlign: isSmallScreen ? 'center' : 'left' }}
-                >
-                  Order ID: {order._id} - Status:{' '}
-                  {order.status === 'completed' ? 'Delivered' : order.status}
-                </Typography>
+      {profileDetails.orders && profileDetails.orders.length > 0 ? (
+        <Stack spacing={3}>
+          {profileDetails.orders.map((order, idx) => (
+            <Paper
+              key={idx}
+              elevation={3}
+              sx={{
+                p: 3,
+                '&:hover': { boxShadow: 6, transform: 'scale(1.01)', transition: '0.3s' },
+              }}
+            >
+              <Typography variant={isSmallScreen ? 'subtitle1' : 'h6'} fontWeight="bold" mb={1}>
+                Order ID: {order._id} - Status: {order.status === 'completed' ? 'Delivered' : order.status}
+              </Typography>
 
-                <Stepper
-                  activeStep={getOrderStatusStep(order.status)}
-                  alternativeLabel
-                  sx={{ mt: 1, mb: 2, px: isSmallScreen ? 1 : 0 }}
-                >
-                  {['Ordered', 'Shipped', 'Delivered'].map((status, i) => (
-                    <Step key={i}>
-                      <StepLabel
-                        sx={{
-                          '& .MuiStepLabel-label': {
-                            fontSize: isSmallScreen ? '0.75rem' : '1rem',
-                          },
-                        }}
-                      >
-                        {status}
-                      </StepLabel>
-                    </Step>
-                  ))}
-                </Stepper>
+              <Stepper activeStep={getOrderStatusStep(order.status)} alternativeLabel sx={{ mb: 2 }}>
+                {orderStatuses.map((status, i) => (
+                  <Step key={i}>
+                    <StepLabel sx={{
+                      '& .MuiStepLabel-label': { fontSize: isSmallScreen ? '0.75rem' : '1rem' }
+                    }}>
+                      {status}
+                    </StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
 
-                <Typography
-                  variant="body1"
-                  sx={{ mt: 1, textAlign: isSmallScreen ? 'center' : 'left' }}
-                >
-                  Total amount: ₹{order.totalAmount}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{ mt: 1, mb: 2, textAlign: isSmallScreen ? 'center' : 'left' }}
-                >
-                  Order placed at: {new Date(order.createdAt).toLocaleString()}
-                </Typography>
+              <Typography variant="body2" mb={1}>
+                Order placed at: {new Date(order.createdAt).toLocaleString()}
+              </Typography>
+              <Typography variant="body1" fontWeight="bold" mb={1}>
+                Total Amount: ₹{order.totalAmount} | Items: {order.items.length}
+              </Typography>
 
-                {order.items && order.items.length > 0 ? (
-                  order.items.map((item, i) => {
+              {order.items && order.items.length > 0 ? (
+                <List>
+                  {order.items.map((item, i) => {
                     const { name, price } = getMenuItemDetails(item.menuId);
                     return (
                       <ListItem
@@ -335,39 +123,25 @@ const OrderPage = () => {
                           display: 'flex',
                           flexDirection: isSmallScreen ? 'column' : 'row',
                           justifyContent: 'space-between',
-                          alignItems: isSmallScreen ? 'flex-start' : 'center',
                           px: 0,
                         }}
                       >
-                        <ListItemText
-                          primary={name}
-                          secondary={`Price: ₹${price}`}
-                          sx={{ mb: isSmallScreen ? 1 : 0 }}
-                        />
+                        <ListItemText primary={name} secondary={`Price: ₹${price}`} />
                         <ListItemText secondary={`Quantity: ${item.quantity}`} />
                       </ListItem>
                     );
-                  })
-                ) : (
-                  <Typography
-                    variant="body2"
-                    sx={{ mt: 1, textAlign: isSmallScreen ? 'center' : 'left' }}
-                  >
-                    No items in this order
-                  </Typography>
-                )}
+                  })}
+                </List>
+              ) : <Typography>No items in this order</Typography>}
 
-                <Divider sx={{ mt: 2 }} />
-              </Box>
-            ))}
-          </List>
-        ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', mt: 4 }}>
-            No orders available.
-          </Typography>
-        )}
-      </Box>
-    </Layout>
+              <Divider sx={{ mt: 2 }} />
+            </Paper>
+          ))}
+        </Stack>
+      ) : (
+        <Typography variant="body1" textAlign="center" mt={4}>No orders available.</Typography>
+      )}
+    </Box>
   );
 };
 

@@ -5,46 +5,7 @@ const Order = require('../models/order');
 const Item = require('../models/item');
 const DeliveryBoy = require('../models/deliveryboy')
 
-// router.post('/changestatus/:id', async (req, res) => {
-//   const orderId = req.params.id;
-//   const { newStatus } = req.body; // Assuming that the new status will be passed in the request body
 
-//   try {
-//       // Find the order by ID
-//       const order = await Order.findOne({ _id: orderId });
-
-//       if (!order) {
-//           return res.status(404).json({ message: "No such order found" });
-//       }
-
-//       // Check the current status and determine what action to take
-//       if (order.status === 'pending') {
-//           // If the order is pending, update to the new status (e.g., completed or canceled)
-//           if (newStatus === 'delivered' || newStatus === 'canceled') {
-//               order.status = newStatus;
-//           } else {
-//               return res.status(400).json({ message: "Invalid status transition" });
-//           }
-//       } else if (order.status === 'delivered') {
-//           // If the order is already completed, don't allow changes
-//           return res.status(400).json({ message: "Cannot change the status of a completed order" });
-//       } else if (order.status === 'canceled') {
-//           // If the order is canceled, don't allow further status changes
-//           return res.status(400).json({ message: "Cannot change the status of a canceled order" });
-//       } else {
-//           return res.status(400).json({ message: "Unknown order status" });
-//       }
-
-//       // Save the updated order
-//       await order.save();
-
-//       // Return the updated order
-//       res.json(order);
-//   } catch (error) {
-//       console.error("Error changing order status:", error);
-//       res.status(500).json({ message: "Internal server error" });
-//   }
-// });
 router.post('/changestatus/:id', async (req, res) => {
   const orderId = req.params.id;
   const { newStatus } = req.body; // Assuming the new status is passed in the body
@@ -59,11 +20,10 @@ router.post('/changestatus/:id', async (req, res) => {
 
       
       const deliveryBoy = await DeliveryBoy.findById(order.deliveryBoy).populate('completedOrders');
-      console.log(deliveryBoy)
+
       if (!deliveryBoy) {
           return res.status(404).json({ message: "No delivery boy assigned to this order" });
       }
-      console.log(order)
     
       // Handle order status transitions
       if (order.status === 'pending') {
@@ -108,7 +68,7 @@ router.post('/changestatus/:id', async (req, res) => {
 });
 
 router.get('/deliveryboy/showorders',async(req,res)=>{
-  // console.log('Namaste')
+  
   try{
     const orders = await Order.find({}).populate('items')
     if(!orders){
@@ -121,7 +81,7 @@ router.get('/deliveryboy/showorders',async(req,res)=>{
 })
 
 router.get('/deliveryboy/showpendingorders',async(req,res)=>{
-  // console.log('Namaste')
+  
   try{
     const orders = await Order.find({status:'pending'}).populate('items')
     if(!orders){
@@ -133,13 +93,10 @@ router.get('/deliveryboy/showpendingorders',async(req,res)=>{
   }
 })
 
-
 router.post('/', async (req, res) => {
   try {
     const { customerName, items } = req.body;
-    console.log('hello')
-    console.log(customerName)
-    console.log(items)
+   
     if (!customerName || !items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: 'Invalid order data.' });
     }
@@ -213,11 +170,9 @@ await newOrder.save();
 
 
 router.get('/:id',async(req,res)=>{
-  console.log('hello')
   const email = req.params.id
-  console.log("Fetching orders with email:", email);
   const customer = await Customer.find({email:email})
-  console.log(customer)
+
   if(!customer){
     return res.status(404).json({message:'Customer not found'})
   }
@@ -228,28 +183,11 @@ router.get('/:id',async(req,res)=>{
       select:'name price'
     })
     res.status(201).json({order:orders})
-    // console.log(orders)
+    
   }catch(err){
     res.status(500).json({ message: 'Internal server error.' });
   }
 })
-
-
-
-// router.post('/changestatus/:id',async(req,res)=>{
-//   const orderId = req.params.id
-//   try{
-//     const order =  await await Order.findOne({_id:orderId})
-//     if(!order){
-//       return res.status(404).json({message:"NO such order found"})
-//     }
-//     if(order.status==='pending'){
-
-//     }
-//   } 
-// })
-
-
 
 module.exports = router;
 

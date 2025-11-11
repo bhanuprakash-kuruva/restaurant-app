@@ -162,7 +162,7 @@ import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <Box sx={{ bgcolor: 'black', color: 'white', mt: 4 }}>
+    <Box sx={{ bgcolor: 'black', color: 'white'}}>
       {/* Top Section */}
       <Box
         sx={{
