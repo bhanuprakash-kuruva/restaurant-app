@@ -29,7 +29,8 @@ const Home = () => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const { email} = useUser;
+  const { email} = useUser();
+  console.log(email);
   const navigate = useNavigate();
   const handleClick = () => setOpen(true);
   const handleMenuClick = () => navigate('/menu');

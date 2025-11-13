@@ -76,7 +76,7 @@ const SalesAndItemsAnalysis = () => {
         const [ordersRes, menuRes, ratingsRes] = await Promise.all([
           fetch(`${BACKEND_API_URL}/orders/deliveryboy/showorders`),
           fetch(`${BACKEND_API_URL}/item/menu-items`),
-          fetch(`${BACKEND_API_URL}/reviews/showreview`)
+          fetch(`${BACKEND_API_URL}/reviews/showreviews`)
         ]);
 
         if (!ordersRes.ok || !menuRes.ok || !ratingsRes.ok) {

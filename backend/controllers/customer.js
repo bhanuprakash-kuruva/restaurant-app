@@ -106,6 +106,11 @@ async function validateCustomer(req, res) {
     const { email, password, userRole } = req.body;
 
     try {
+
+        const user = await Customer.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
         // First: handle special role logins without DB password
         if (userRole === 'DELIVERYBOY' && password === process.env.DELIVERY_SECRET) {
             return res.status(200).json({ message: 'User found', role: 'DELIVERYBOY' });
@@ -115,11 +120,7 @@ async function validateCustomer(req, res) {
             return res.status(200).json({ message: 'User found', role: 'ADMIN' });
         }
 
-        // Otherwise: normal DB user lookup
-        const user = await Customer.findOne({ email });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+
 
         if (!user.password) {
             return res.status(401).json({ message: 'Password not set for this user' });

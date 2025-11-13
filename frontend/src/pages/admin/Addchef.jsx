@@ -58,11 +58,7 @@ const AddChefs = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  useEffect(() => {
-    if (role !== 'ADMIN') {
-      navigate('/needaccess');
-    }
-  }, [role, navigate]);
+
 
   const steps = ['Basic Info', 'Experience & Rating', 'Description & Image'];
 
