@@ -1,5 +1,6 @@
 const Customer = require('../models/customer');
 const bcrypt = require('bcrypt');  
+const DeliveryBoy = require('../models/deliveryboy');
 const { ObjectId } = require('mongoose').Types;
 
 
@@ -108,7 +109,8 @@ async function validateCustomer(req, res) {
     try {
 
         const user = await Customer.findOne({ email });
-        if (!user) {
+        const deliveryboy = await DeliveryBoy.findOne({email});
+        if (!user && !deliveryboy) {
             return res.status(404).json({ message: 'User not found' });
         }
         // First: handle special role logins without DB password

@@ -279,7 +279,7 @@ const AddDeliveryBoy = () => {
         setErrors({});
         setSuccess(false);
       }, 2000);
-
+      navigate('/signup');
     } catch (error) {
       console.error(error);
       setErrors(prev => ({ ...prev, submit: 'Failed to add delivery boy. Please try again.' }));

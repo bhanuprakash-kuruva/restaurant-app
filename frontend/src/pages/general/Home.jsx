@@ -211,6 +211,7 @@ const Home = () => {
             }
           ].map((item, index) => (
             <Slide in direction="up" key={index}>
+            
               <Accordion sx={{ width: '100%', maxWidth: 700, bgcolor: '#fafafa' }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon color="success" />}>
                   <Typography
